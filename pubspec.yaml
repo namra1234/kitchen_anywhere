@@ -38,6 +38,7 @@ dependencies:
   connectivity:
   http:
   email_validator:
+  material_color_gen: ^2.0.0
 
 dev_dependencies:
   flutter_test:
