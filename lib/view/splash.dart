@@ -2,12 +2,14 @@ import 'dart:async';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:kitchen_anywhere/common/route_generator.dart';
 
 import '../common/buttonStyle.dart';
 import '../common/colorConstants.dart';
 import '../common/constants.dart';
 import '../common/textStyle.dart';
 import '../common/util.dart';
+import 'authentication/login.dart';
 
 
 
@@ -21,20 +23,19 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    loginCheck();
+    moveToNextScreen();
   }
 
-  void loginCheck() async {
+
+  void moveToNextScreen() async {
 
     var _duartion = new Duration(
       seconds: Constants.SPLASH_SCREEN_TIME,
     );
     Timer(_duartion, () async {
 
-      // Navigator.of(context).pushNamedAndRemoveUntil(
-      //   loginStatus == true ? chatRoute : SignInScreenRoute,
-      //   (route) => false,
-      // );
+      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+          LoginScreen()), (Route<dynamic> route) => false);
     });
   }
 
@@ -62,7 +63,7 @@ class _SplashScreenState extends State<SplashScreen> {
                 Padding(
                   padding: EdgeInsets.only(top:Constants.height/14),
                   child: Center(
-                    child: Container(
+                    child: SizedBox(
                       height: Constants.height/2,
                       child: Image.asset('assets/images/splashMainLogo.png'),
                     ),
