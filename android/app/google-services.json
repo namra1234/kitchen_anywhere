@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "404383085875",
+    "project_id": "kitchenanywhere-84ad5",
+    "storage_bucket": "kitchenanywhere-84ad5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:404383085875:android:84affd932e3c6126a53a46",
+        "android_client_info": {
+          "package_name": "com.kitchen_anywhere.kitchen_anywhere"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "404383085875-qibvqs0cctl4em1dbl8lcja53117gtc2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC89r5xtfBMgcXQm1BEnH-tLRb5a7Yj2NA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "404383085875-qibvqs0cctl4em1dbl8lcja53117gtc2.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

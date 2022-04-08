@@ -8,6 +8,7 @@ class firebase
 class Constants {
   static const int SPLASH_SCREEN_TIME = 2;
   static int processIndex=0;
+  static String loggedInUserID="",myName="",myEmail="";
   static String appname="Flutter App";
   static double height=0,width=0;
   static DateFormat commondateFormate=DateFormat("yyyy-MM-dd hh:mm:ss");
