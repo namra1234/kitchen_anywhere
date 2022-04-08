@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:kitchen_anywhere/common/buttonStyle.dart';
 import 'package:kitchen_anywhere/common/colorConstants.dart';
 import '../../common/constants.dart';
+import 'package:kitchen_anywhere/model/userModel.dart';
+import 'package:kitchen_anywhere/repository/userRep.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -13,25 +17,68 @@ class _LoginScreenState extends State<LoginScreen> {
 
   String name = "";
   bool changeButton = false;
+  late TextEditingController emailController, passwordController;
 
    final _formKey = GlobalKey<FormState>();
+  GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
-   login () async{
+
+  void showSnackBar(String message) {
+
+
+
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+      content: Text(message),
+    ),);
+
+  }
+
+  login () async{
     if(_formKey.currentState!.validate()){
-      setState(() {
-       changeButton = true;
-       });
-        //await Future.delayed(const Duration(seconds: 1));
-       //  Navigator.pushNamed(context, )
-      setState(() {
-  changeButton = false;
-  });
+      print('welcome');
+      FocusManager.instance.primaryFocus?.unfocus();
+
+      FirebaseAuth.instance
+          .signInWithEmailAndPassword(
+          email: emailController.text.trim(), password: passwordController.text)
+          .then((value) async {
+        Constants.loggedInUserID = FirebaseAuth.instance.currentUser!.uid;
+
+        SharedPreferences preferences = await SharedPreferences.getInstance();
+        preferences.setBool('isLoggedin', true);
+        preferences.setString(
+            'myName', FirebaseAuth.instance.currentUser!.displayName!);
+        preferences.setString('myEmail', FirebaseAuth.instance.currentUser!.email!);
+        preferences.setString('loggedInUserID', Constants.loggedInUserID);
+
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        Constants.myName = FirebaseAuth.instance.currentUser!.displayName!;
+        Constants.myEmail = FirebaseAuth.instance.currentUser!.email!;
+
+        showSnackBar("Login Successfully");
+
+      }).catchError((e) {
+        showSnackBar(e.message);
+      });
+
   }
   }
 
   @override
   void initState() {
     super.initState();
+
+    emailController = TextEditingController();
+    passwordController = TextEditingController();
+
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+
+    emailController.dispose();
+    passwordController.dispose();
   }
 
   @override
@@ -70,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 height: 20.0,
                               ),
                                Text(
-                                "Welcome $name",
+                                "Welcome",
                                 style: const TextStyle(
                                   fontSize: 20, fontWeight: FontWeight.bold),
                               ),
@@ -81,6 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                   child: Column(
                                     children: [
                                       TextFormField(
+                                        controller: emailController,
                                         decoration: const InputDecoration(
                                           labelStyle: TextStyle(color: Colors.black),
                                           hintText: "Username",
@@ -98,6 +146,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                         },
                                       ),
                                       TextFormField(
+                                        controller: passwordController,
                                         obscureText: true,
                                         decoration: const InputDecoration(
                                           labelStyle:TextStyle(color: Colors.black),
@@ -108,9 +157,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                           if (value!.isEmpty) {
                                             return "Password can not be empty";
                                           }
-                                          else if(value.length < 8) {
-                                            return "Password length should be atleast 8";
-                                          }
+
                                           return null;
                                         },
                                       ),
