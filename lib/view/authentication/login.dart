@@ -6,6 +6,7 @@ import 'package:kitchen_anywhere/model/userModel.dart';
 import 'package:kitchen_anywhere/repository/userRep.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import './signup.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({Key? key}) : super(key: key);
@@ -196,17 +197,28 @@ class _LoginScreenState extends State<LoginScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          "Don't have an account?",style: TextStyle(
-                            fontSize: 17,color: Colors.black),
+                         Text(
+                              "Don't have an account?",style: TextStyle(
+                                fontSize: 17,color: Colors.black),
+                            ),
+                        InkWell(
+                          onTap: (){
+                            Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                            const SignupScreen()));
+                          },
+                          child: Container(
+                            child: Text('Sign up', style: TextStyle(
+                                color: Colors.green,fontWeight: FontWeight.bold)),
+                          ),
                         ),
-                        Text('Sign up', style: TextStyle(
-                            color: Colors.green,fontWeight: FontWeight.bold)),
                         // TextButton(
                         //   style: TextButton.styleFrom(
                         //     textStyle: const TextStyle(fontSize: 18),
                         //   ),
-                        //   onPressed: () {},
+                        //   onPressed: () {
+                        //     Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+                        //         SignupScreen()));
+                        //   },
                         //   child: const Text('Sign up', style: TextStyle(
                         //       color: Colors.green,fontWeight: FontWeight.bold),
                         //   ),
