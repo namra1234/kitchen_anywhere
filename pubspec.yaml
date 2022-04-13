@@ -55,6 +55,8 @@ dev_dependencies:
   shared_preferences:
   firebase_storage: ^10.2.11
   cloud_firestore: ^3.1.11
+  flutter_swipe_action_cell:
+  cached_network_image: ^3.2.0
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

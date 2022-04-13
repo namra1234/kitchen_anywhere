@@ -1,9 +1,7 @@
 import 'dart:async';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kitchen_anywhere/common/route_generator.dart';
-
 import '../common/buttonStyle.dart';
 import '../common/colorConstants.dart';
 import '../common/constants.dart';

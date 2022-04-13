@@ -45,17 +45,30 @@ class CustomTextStyle
   }
 
 
-  static TextStyle mediumText(double size,double height,double width)
+  static TextStyle mediumText(double size,double width)
   {
     return TextStyle(
     fontFamily: 'DM Sans',
     fontSize: (size==null && size=='')? 24 : (width*size)/375,
     fontStyle: FontStyle.normal,
-    fontWeight: FontWeight.w500,
+    fontWeight: FontWeight.w900,
     // lineHeight: 47px,
     letterSpacing: -0.01,
   );
   }
+
+
+ static TextStyle regularText(double size,double width)
+ {
+   return TextStyle(
+     fontFamily: 'DM Sans',
+     fontSize: (size==null && size=='')? 24 : (width*size)/375,
+     fontStyle: FontStyle.normal,
+     fontWeight: FontWeight.w600,
+     color: Colors.black.withOpacity(0.5),
+     letterSpacing: -0.01,
+   );
+ }
 
 
 }
