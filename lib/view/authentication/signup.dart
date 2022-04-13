@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:kitchen_anywhere/common/buttonStyle.dart';
 import 'package:kitchen_anywhere/common/colorConstants.dart';
+import 'package:kitchen_anywhere/model/userModel.dart';
+import 'package:kitchen_anywhere/repository/userRep.dart';
 import 'package:kitchen_anywhere/view/authentication/login.dart';
 import '../../common/constants.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class SignupScreen extends StatefulWidget {
   const SignupScreen({Key? key}) : super(key: key);
@@ -37,6 +41,7 @@ class _SignupScreenState extends State<SignupScreen> {
   register() async {
     if (_formKey.currentState!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
+      singUp();
     }
   }
 
@@ -123,8 +128,8 @@ class _SignupScreenState extends State<SignupScreen> {
                                           decoration: const InputDecoration(
                                             labelStyle:
                                                 TextStyle(color: Colors.black),
-                                            hintText: "Username",
-                                            labelText: "Enter Username",
+                                            hintText: "Email",
+                                            labelText: "Enter Email",
                                           ),
                                           validator: (value) {
                                             String emailPattern =
@@ -410,7 +415,55 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  letsStart() {
-    print('welcome');
+  singUp() async {
+    FirebaseAuth.instance
+        .createUserWithEmailAndPassword(
+      email: emailController.text.trim(),
+      password: passwordController.text,
+    )
+        .then((value) async {
+      Constants.loggedInUserID = FirebaseAuth.instance.currentUser!.uid;
+      User? user = value.user;
+
+      await user!.updateProfile(
+        displayName: fullNameController.text,
+        photoURL: "",
+      );
+      //
+      // SharedPreferences preferences = await SharedPreferences.getInstance();
+      // preferences.setBool('isLoggedin', true);
+      Constants.loggedInUserID = FirebaseAuth.instance.currentUser!.uid;
+      Constants.myName = FirebaseAuth.instance.currentUser!.displayName!;
+      Constants.myEmail = FirebaseAuth.instance.currentUser!.email!;
+      // preferences.setString('myName', Constants.myName);
+      // preferences.setString('myEmail', Constants.myEmail);
+      // preferences.setString('loggedInUserID', Constants.loggedInUserID);
+      // var isAdmin=await UserRepository().getUserById(Constants.loggedInUserID);
+      // preferences.setBool('isAdmin', isAdmin.isAdmin);
+
+      bool isChef=_userType==UserType.chef ? true : false;
+      await UserRepository().createUser(
+        UserModel(
+            Constants.loggedInUserID,
+            emailController.text,
+            fullNameController.text,
+            addressController.text,
+            postalCodeController.text,
+            phoneNoController.text,
+            isChef
+        ),
+      );
+
+      showSnackBar("Category Created Successfully");
+
+      //   Navigator.of(context).pushAndRemoveUntil(
+      //   MaterialPageRoute(
+      //     builder: (context) => CreateJoinOrg(),
+      //   ),
+      //   (route) => false,
+      // );
+    }).catchError((e) {
+      showSnackBar(e.message);
+    });
   }
 }

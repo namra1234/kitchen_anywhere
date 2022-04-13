@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:kitchen_anywhere/model/userModel.dart';
 
 class firebase
 {
@@ -11,6 +12,7 @@ class Constants {
   static String loggedInUserID="",myName="",myEmail="";
   static String appname="Flutter App";
   static double height=0,width=0;
+  static UserModel userdata=UserModel("","","","","","",false);
   static DateFormat commondateFormate=DateFormat("yyyy-MM-dd hh:mm:ss");
   static DateFormat ymdFormate=DateFormat("yyyy-MM-dd");
   static DateFormat dmytFormate=DateFormat("dd-MM-yyyy hh:mm:ss");

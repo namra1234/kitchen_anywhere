@@ -45,6 +45,8 @@ class _LoginScreenState extends State<LoginScreen> {
           .then((value) async {
         Constants.loggedInUserID = FirebaseAuth.instance.currentUser!.uid;
 
+        await UserRepository().getUser(Constants.loggedInUserID);
+
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setBool('isLoggedin', true);
         preferences.setString(

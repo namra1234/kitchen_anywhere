@@ -1,32 +1,39 @@
 import 'dart:convert';
 
 class UserModel {
-  final String userAddress;
-  final String userEmail;
+  final String address;
+  final String email;
+  final String fullName;
   final String userID;
-  final String id;
-  final String userPhone;
+  final String phoneNo;
+  final String postal_code;
+  final bool isChef;
 
-  UserModel( this.userEmail, this.userID, this.id,this.userAddress,this.userPhone);
+  UserModel(this.userID,this.email,this.fullName,  this.address,this.postal_code,this.phoneNo,this.isChef);
 
   Map<String, dynamic> toJson() {
     return {
-      'userEmail': userEmail,
       'userID': userID,
-      'id': id,
-      'userAddress': userAddress,
-      'userPhone': userPhone
+      'email': email,
+      'fullName':fullName,
+      'address': address,
+      'postal_code': postal_code,
+      'phoneNo': phoneNo,
+      'isChef' : isChef
     };
   }
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
 
     return UserModel(
-        map['userEmail'],
-         map['userID'],
-         map['id'],
-        map['userAddress'],
-    map['userPhone']);
+        map['userID'],
+        map['email'],
+        map['fullName'],
+        map['address'],
+        map['postal_code'],
+        map['phoneNo'],
+        map['isChef']
+    );
   }
 
   factory UserModel.fromJson(String source) => UserModel.fromMap(
