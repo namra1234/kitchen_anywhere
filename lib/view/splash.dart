@@ -2,6 +2,7 @@ import 'dart:async';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kitchen_anywhere/common/route_generator.dart';
+import 'package:kitchen_anywhere/view/chef/chefMainScreen.dart';
 import '../common/buttonStyle.dart';
 import '../common/colorConstants.dart';
 import '../common/constants.dart';
@@ -33,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(_duartion, () async {
 
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-          LoginScreen()), (Route<dynamic> route) => false);
+          ChefMainPage()), (Route<dynamic> route) => false);
     });
   }
 

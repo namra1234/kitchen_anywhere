@@ -23,14 +23,14 @@ class DishRepository {
 
   }
 
-  dynamic getAllDish() async {
-
+  Future<List<DishModel>> getAllDish() async {
+    List<DishModel> dishList=[];
     final docSnapshot = await collection
         .get()
         .then((var snapshot) async {
       final newDocRef = collection.doc();
 
-      List<DishModel> dishList=[];
+
 
       for(int i=0;i<snapshot.docs.length;i++)
         {
@@ -39,18 +39,20 @@ class DishRepository {
           String dishImageLink = data['dishImageLink'].toString();
           String typeOfDish = data['typeOfDish'].toString();
           String description = data['description'].toString();
-          double price = data['price'];
-          double maxLimit = data['maxLimit'];
-          double pending_limit = data['pending_limit'];
+          int price = data['price'];
+          int maxLimit = data['maxLimit'];
+          int pending_limit = data['pending_limit'];
           bool isVegetarian  = data['isVegetarian'];
           bool isActive  = data['isActive'];
 
           Map? DishMap =  DishModel(dishTitle,dishImageLink,typeOfDish,description,price,maxLimit,pending_limit,isVegetarian,isActive).toJson();
           dishList.add(DishModel.fromMap(DishMap as Map<String,dynamic>));
         }
-      return dishList;
+
 
     });
+
+    return dishList;
   }
 
 }

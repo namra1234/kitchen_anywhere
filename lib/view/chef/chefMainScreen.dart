@@ -18,33 +18,36 @@ class _ChefMainPageState extends State<ChefMainPage>
     with WidgetsBindingObserver {
 
   List<DishModel> dish = [
-    DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
-        "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
-    DishModel("Dhosa", "https://wallpaperaccess.com/full/6340449.jpg",
-        "Italian", "A dosa is a thin flat bread originating from South India, made from a fermented batter predominantly consisting of lentils and rice.", 10, 20, 3, false, false),
-    DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
-        "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
-    DishModel("Dhosa", "https://wallpaperaccess.com/full/6340449.jpg",
-        "Italian", "A dosa is a thin flat bread originating from South India, made from a fermented batter predominantly consisting of lentils and rice.", 10, 20, 3, false, false),
-    DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
-        "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
-    DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
-        "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
-
-
+    // DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
+    //     "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
+    // DishModel("Dhosa", "https://wallpaperaccess.com/full/6340449.jpg",
+    //     "Italian", "A dosa is a thin flat bread originating from South India, made from a fermented batter predominantly consisting of lentils and rice.", 10, 20, 3, false, false),
+    // DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
+    //     "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
+    // DishModel("Dhosa", "https://wallpaperaccess.com/full/6340449.jpg",
+    //     "Italian", "A dosa is a thin flat bread originating from South India, made from a fermented batter predominantly consisting of lentils and rice.", 10, 20, 3, false, false),
+    // DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
+    //     "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
+    // DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
+    //     "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
   ];
 
   bool loading = true;
   @override
   void initState() {
     getDishList();
-    loading = false;
     super.initState();
   }
 
   getDishList() async {
-    dish = await DishRepository().getAllDish();
-    setState(() {});
+    List<DishModel> dishdata=[];
+
+    dishdata=await DishRepository().getAllDish();
+
+    setState(() {
+      dish.addAll(dishdata);
+      loading=false;
+    });
   }
 
   @override
@@ -62,7 +65,7 @@ class _ChefMainPageState extends State<ChefMainPage>
 
   @override
   Widget build(BuildContext context) {
-    loading = false;
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorConstants.secondaryColor,
@@ -228,7 +231,7 @@ class _ChefMainPageState extends State<ChefMainPage>
                                        style: dishModel.isVegetarian ? CustomTextStyle.regularText(15, Constants.width).apply(color: ColorConstants.primaryColor):CustomTextStyle.regularText(15, Constants.width).apply(color: Colors.red)),
                                   Text(dishModel.typeOfDish,
                                       textAlign: TextAlign.start,
-                                      style: CustomTextStyle.regularText(15, Constants.width)),
+                                      style: CustomTextStyle.regularText(15, Constants.width).apply(color: ColorConstants.blackColor)),
                                 ],
                               ),
                             ),

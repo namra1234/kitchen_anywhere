@@ -5,9 +5,9 @@ class DishModel {
   final String dishImageLink;
   final String description;
   final String typeOfDish;
-  final double price;
-  final double maxLimit;
-  final double pending_limit;
+  final int price;
+  final int maxLimit;
+  final int pending_limit;
   final bool isVegetarian;
   final bool isActive;
 
