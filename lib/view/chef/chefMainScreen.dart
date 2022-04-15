@@ -8,6 +8,7 @@ import 'package:kitchen_anywhere/common/textStyle.dart';
 import 'package:kitchen_anywhere/model/dishModel.dart';
 import 'package:kitchen_anywhere/repository/dishRep.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
+import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 
 class ChefMainPage extends StatefulWidget {
   @override
@@ -86,7 +87,11 @@ class _ChefMainPageState extends State<ChefMainPage>
       floatingActionButton: FloatingActionButton(
         backgroundColor: ColorConstants.secondaryColor,
         child: Icon(Icons.add),
-        onPressed: () {},
+        onPressed: () {
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) =>
+              const AddDishes()));
+        },
       ),
     );
   }

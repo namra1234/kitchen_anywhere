@@ -18,4 +18,7 @@ class ColorConstants {
   static const greenColor = Colors.green;
   static const orangeAccent = Colors.orangeAccent;
   static const errorColor = Colors.red;
+
+//Milan
+  static const customLightGreenColor = Color(0xFF066163);
 }
