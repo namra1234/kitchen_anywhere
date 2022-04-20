@@ -57,6 +57,7 @@ dev_dependencies:
   cloud_firestore: ^3.1.11
   flutter_swipe_action_cell:
   cached_network_image: ^3.2.0
+  image_picker:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 

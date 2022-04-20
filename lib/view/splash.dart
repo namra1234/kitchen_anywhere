@@ -34,7 +34,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(_duartion, () async {
 
       Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-          ChefMainPage()), (Route<dynamic> route) => false);
+          LoginScreen()), (Route<dynamic> route) => false);
     });
   }
 

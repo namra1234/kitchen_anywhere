@@ -11,6 +11,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 
 class ChefMainPage extends StatefulWidget {
+
   @override
   _ChefMainPageState createState() => _ChefMainPageState();
 }
@@ -18,20 +19,7 @@ class ChefMainPage extends StatefulWidget {
 class _ChefMainPageState extends State<ChefMainPage>
     with WidgetsBindingObserver {
 
-  List<DishModel> dish = [
-    // DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
-    //     "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
-    // DishModel("Dhosa", "https://wallpaperaccess.com/full/6340449.jpg",
-    //     "Italian", "A dosa is a thin flat bread originating from South India, made from a fermented batter predominantly consisting of lentils and rice.", 10, 20, 3, false, false),
-    // DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
-    //     "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
-    // DishModel("Dhosa", "https://wallpaperaccess.com/full/6340449.jpg",
-    //     "Italian", "A dosa is a thin flat bread originating from South India, made from a fermented batter predominantly consisting of lentils and rice.", 10, 20, 3, false, false),
-    // DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
-    //     "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
-    // DishModel("Pizza", "https://media.istockphoto.com/photos/cheesy-pepperoni-pizza-picture-id938742222?k=20&m=938742222&s=612x612&w=0&h=X5AlEERlt4h86X7U7vlGz3bDaDDGQl4C3MuU99u2ZwQ=",
-    //     "Italian", "It is dish of Italian origin consisting of a bread dough topped with  olive oil, oregano, tomato, olives, mozzarella .", 10, 20, 3, true, true),
-  ];
+
 
   bool loading = true;
   @override
@@ -44,9 +32,9 @@ class _ChefMainPageState extends State<ChefMainPage>
     List<DishModel> dishdata=[];
 
     dishdata=await DishRepository().getAllDish();
-
+    Constants.dish.clear();
     setState(() {
-      dish.addAll(dishdata);
+      Constants.dish.addAll(dishdata);
       loading=false;
     });
   }
@@ -90,14 +78,17 @@ class _ChefMainPageState extends State<ChefMainPage>
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
               builder: (context) =>
-              const AddDishes()));
+               AddDishes())).then((value) => {
+
+          getDishList()
+          });
         },
       ),
     );
   }
 
   Widget ChefMainPage() {
-    return dish.length != 0
+    return Constants.dish.length != 0
         ? Padding(
             padding: EdgeInsets.only(
                 top: Constants.height * 0.03,
@@ -105,21 +96,21 @@ class _ChefMainPageState extends State<ChefMainPage>
                 right: Constants.width * 0.05),
             child: Container(
               child: ListView.builder(
-                  itemCount: dish.length,
+                  itemCount: Constants.dish.length,
                   shrinkWrap: true,
                   itemBuilder: (context, index) {
                     return Column(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         SwipeActionCell(
-                            key: ObjectKey(dish[index]),
+                            key: ObjectKey(Constants.dish[index]),
 
                             ///this key is necessary
                             trailingActions: <SwipeAction>[
                               SwipeAction(
                                   title: "delete",
                                   onTap: (CompletionHandler handler) async {
-                                    dish.removeAt(index);
+                                    Constants.dish.removeAt(index);
                                     setState(() {});
                                   },
                                   color: Colors.red),
@@ -128,12 +119,12 @@ class _ChefMainPageState extends State<ChefMainPage>
                               SwipeAction(
                                   title: "Edit",
                                   onTap: (CompletionHandler handler) async {
-                                    showSnackBar("Edit "+ dish[index].dishTitle);
+                                    showSnackBar("Edit "+ Constants.dish[index].dishTitle);
                                     setState(() {});
                                   },
                                   color: ColorConstants.primaryColor),
                             ],
-                            child: ChefListView(dish[index], index)),
+                            child: ChefListView(Constants.dish[index], index)),
                         SizedBox(height: 15,)
                       ],
                     );
