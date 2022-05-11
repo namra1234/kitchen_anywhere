@@ -5,14 +5,22 @@ class DishModel {
   final String dishImageLink;
   final String description;
   final String typeOfDish;
-  final int price;
+  final String chef_id;
+  final double price;
   final int maxLimit;
   final int pending_limit;
   final bool isVegetarian;
   final bool isActive;
 
+  final int categoryId;
+  final List<String> favouriteUserID;
+  final int start;
 
-  DishModel(this.dishTitle,this.dishImageLink,this.typeOfDish,this.description,this.price,this.maxLimit,this.pending_limit,this.isVegetarian,this.isActive);
+
+  DishModel(this.dishTitle,this.dishImageLink,this.typeOfDish,this.description,
+      this.price,this.maxLimit,this.pending_limit,this.isVegetarian,this.isActive,this.chef_id,
+      this.categoryId,this.favouriteUserID,this.start
+      );
 
   Map<String, dynamic> toJson() {
     return {
@@ -24,7 +32,12 @@ class DishModel {
       'maxLimit': maxLimit,
       'pending_limit':pending_limit,
       'isVegetarian': isVegetarian,
-      'isActive' : isActive
+      'isActive' : isActive,
+      'chef_id' : chef_id,
+      'categoryId': categoryId,
+      'favouriteUserID' : favouriteUserID,
+      'start' : start,
+
     };
   }
 
@@ -39,7 +52,11 @@ class DishModel {
         map['maxLimit'],
         map['pending_limit'],
         map['isVegetarian'],
-        map['isActive']
+        map['isActive'],
+        map['chef_id'],
+        map['categoryId'],
+        map['favouriteUserID'],
+        map['start']
     );
   }
 

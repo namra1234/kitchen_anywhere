@@ -51,13 +51,13 @@ class _LoginScreenState extends State<LoginScreen> {
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setBool('isLoggedin', true);
         preferences.setString(
-            'myName', FirebaseAuth.instance.currentUser!.displayName!);
-        preferences.setString('myEmail', FirebaseAuth.instance.currentUser!.email!);
+            'myName', Constants.userdata.fullName);
+        preferences.setString('myEmail', Constants.userdata.email);
         preferences.setString('loggedInUserID', Constants.loggedInUserID);
 
         SharedPreferences prefs = await SharedPreferences.getInstance();
-        Constants.myName = FirebaseAuth.instance.currentUser!.displayName!;
-        Constants.myEmail = FirebaseAuth.instance.currentUser!.email!;
+        Constants.myName = Constants.userdata.fullName;
+        Constants.myEmail = Constants.userdata.email;
 
         showSnackBar("Login Successfully");
 

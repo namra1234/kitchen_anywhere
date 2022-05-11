@@ -50,14 +50,12 @@ class _AddDishesState extends State<AddDishes> {
   @override
   void initState() {
     super.initState();
-
     dishTitleController = TextEditingController();
     priceController = TextEditingController();
     cusineController = TextEditingController();
     numberOfDishes = TextEditingController();
     description = TextEditingController();
     dishImageLinkController = TextEditingController();
-
   }
 
 
@@ -72,9 +70,10 @@ class _AddDishesState extends State<AddDishes> {
     if (_formKey.currentState!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
 
-      int price = int.parse(priceController.text.toString());
+      double price = double.parse(priceController.text.toString());
       int dish = int.parse(numberOfDishes.text.toString());
-
+      Random random = Random();
+      int _randomNumber1 = random.nextInt(5);
       setState(() {
         DishRepository().createDish(DishModel(
             dishTitleController.text,
@@ -85,7 +84,10 @@ class _AddDishesState extends State<AddDishes> {
             dish,
             dish,
             _diet == Diet.Vegetarian ? true : false,
-            _status == Status.Active ? true : false));
+            _status == Status.Active ? true : false,
+            Constants.loggedInUserID
+            ,_randomNumber1, [] ,_randomNumber1
+        ));
       });
       uploadedFileURL="";
       showSnackBar("Dish Added Successfully.");

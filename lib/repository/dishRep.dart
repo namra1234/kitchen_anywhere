@@ -1,3 +1,5 @@
+import 'dart:math';
+
 import 'package:flutter/cupertino.dart';
 import 'package:kitchen_anywhere/common/constants.dart';
 import 'package:kitchen_anywhere/model/dishModel.dart';
@@ -39,13 +41,21 @@ class DishRepository {
           String dishImageLink = data['dishImageLink'].toString();
           String typeOfDish = data['typeOfDish'].toString();
           String description = data['description'].toString();
-          int price = data['price'];
-          int maxLimit = data['maxLimit'];
-          int pending_limit = data['pending_limit'];
+          double price = double.parse(data['price'].toString());
+          int maxLimit = data['maxLimit'].toInt();
+          int categoryId = data['categoryId'].toInt();
+          int pending_limit = data['pending_limit'].toInt();
           bool isVegetarian  = data['isVegetarian'];
           bool isActive  = data['isActive'];
 
-          Map? DishMap =  DishModel(dishTitle,dishImageLink,typeOfDish,description,price,maxLimit,pending_limit,isVegetarian,isActive).toJson();
+
+          Random random = Random();
+          int _randomNumber1 = random.nextInt(5);
+
+          Map? DishMap =  DishModel(dishTitle,dishImageLink,typeOfDish,description,price,maxLimit,pending_limit,
+              isVegetarian,isActive,Constants.loggedInUserID,categoryId, [] ,_randomNumber1
+
+          ).toJson();
           dishList.add(DishModel.fromMap(DishMap as Map<String,dynamic>));
         }
 
