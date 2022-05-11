@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kitchen_anywhere/common/route_generator.dart';
+import 'package:kitchen_anywhere/model/userModel.dart';
 import 'package:kitchen_anywhere/view/chef/chefMainScreen.dart';
 import '../common/buttonStyle.dart';
 import '../common/colorConstants.dart';
@@ -9,8 +11,11 @@ import '../common/constants.dart';
 import '../common/textStyle.dart';
 import '../common/util.dart';
 import 'authentication/login.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-
+import 'foodie/foodieMainScreen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -25,18 +30,68 @@ class _SplashScreenState extends State<SplashScreen> {
     moveToNextScreen();
   }
 
-
   void moveToNextScreen() async {
+    WidgetsFlutterBinding.ensureInitialized();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    var loginStatus = prefs.getBool('isLoggedin');
 
-    var _duartion = new Duration(
-      seconds: Constants.SPLASH_SCREEN_TIME,
-    );
-    Timer(_duartion, () async {
+    if (loginStatus == null) loginStatus = false;
+    try{
+      if (loginStatus) {
+        Constants.myName = prefs.getString('fullName')!;
+        Constants.myEmail = prefs.getString('email')!;
+        Constants.loggedInUserID = prefs.getString('userID')!;
+        String fullName=prefs.getString('fullName')!;
+        String email=prefs.getString('email')!;
+        String address=prefs.getString('address')!;
+        String phoneNo=prefs.getString('phoneNo')!;
+        String postal_code=prefs.getString('postal_code')!;
+        String userID=prefs.getString('userID')!;
+        bool isChef = prefs.getBool('isChef')!;
 
-      Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-          LoginScreen()), (Route<dynamic> route) => false);
-    });
+        Constants.userdata = UserModel(userID,email,fullName,address,postal_code,phoneNo,isChef);
+        var _duartion = new Duration(
+          seconds: Constants.SPLASH_SCREEN_TIME,
+        );
+        Timer(_duartion, () async {
+
+          if(Constants.userdata.isChef)
+          {
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                ChefMainPage()), (Route<dynamic> route) => false);
+          }
+          else
+          {
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                FoodieMainPage()), (Route<dynamic> route) => false);
+          }
+        });
+      }
+      else
+      {
+        var _duartion = new Duration(
+          seconds: Constants.SPLASH_SCREEN_TIME,
+        );
+        Timer(_duartion, () async {
+
+          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+              LoginScreen()), (Route<dynamic> route) => false);
+        });
+      }
+    }
+    catch(e)
+    {
+      var _duartion = new Duration(
+        seconds: Constants.SPLASH_SCREEN_TIME,
+      );
+      Timer(_duartion, () async {
+
+        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+            LoginScreen()), (Route<dynamic> route) => false);
+      });
+    }
   }
+
 
   @override
   Widget build(BuildContext context) {

@@ -11,6 +11,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:kitchen_anywhere/view/chef/chefProfileScreen.dart';
+import 'package:kitchen_anywhere/view/chef/chefSettingScreen.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
 
 class ChefMainPage extends StatefulWidget {
@@ -98,7 +99,9 @@ class _ChefMainPageState extends State<ChefMainPage>
       currentIndex == 0 ?
       Container(
         child: ChefMainPage(),
-      ): ChefProfilePage()
+      ):
+      currentIndex == 1 ?
+      ChefProfilePage() : currentIndex == 3 ?ChefSettingScreen() : ChefSettingScreen()
       ,
 
     );

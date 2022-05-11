@@ -51,12 +51,16 @@ class _LoginScreenState extends State<LoginScreen> {
 
         SharedPreferences preferences = await SharedPreferences.getInstance();
         preferences.setBool('isLoggedin', true);
-        preferences.setString(
-            'myName', Constants.userdata.fullName);
-        preferences.setString('myEmail', Constants.userdata.email);
-        preferences.setString('loggedInUserID', Constants.loggedInUserID);
 
-        SharedPreferences prefs = await SharedPreferences.getInstance();
+        preferences.setString(
+            'fullName', Constants.userdata.fullName);
+        preferences.setString('email', Constants.userdata.email);
+        preferences.setString('address', Constants.userdata.address);
+        preferences.setString('phoneNo', Constants.userdata.phoneNo);
+        preferences.setString('postal_code', Constants.userdata.postal_code);
+        preferences.setString('userID', Constants.loggedInUserID);
+        preferences.setBool('isChef', Constants.userdata.isChef);
+
         Constants.myName = Constants.userdata.fullName;
         Constants.myEmail = Constants.userdata.email;
 

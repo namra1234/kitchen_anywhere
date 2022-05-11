@@ -11,6 +11,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:kitchen_anywhere/view/foodie/foodieProfileScreen.dart';
+import 'package:kitchen_anywhere/view/foodie/foodieSettingScreen.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'allDishScreen.dart';
@@ -126,7 +127,8 @@ class _FoodieMainPageState extends State<FoodieMainPage>
             ,
           ),
         ],
-      ) : ProfilePage(),
+      ) : currentIndex == 1 ? ProfilePage() : currentIndex == 3 ? FoodieSettingScreen() :ProfilePage()
+      ,
     );
   }
 
