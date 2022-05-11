@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kitchen_anywhere/common/buttonStyle.dart';
 import 'package:kitchen_anywhere/common/colorConstants.dart';
 import 'package:kitchen_anywhere/view/chef/chefMainScreen.dart';
+import 'package:kitchen_anywhere/view/foodie/foodieMainScreen.dart';
 import '../../common/constants.dart';
 import 'package:kitchen_anywhere/model/userModel.dart';
 import 'package:kitchen_anywhere/repository/userRep.dart';
@@ -61,8 +62,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
         showSnackBar("Login Successfully");
 
-        Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
-            ChefMainPage()), (Route<dynamic> route) => false);
+        if(Constants.userdata.isChef)
+          {
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                ChefMainPage()), (Route<dynamic> route) => false);
+          }
+        else
+          {
+            Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) =>
+                FoodieMainPage()), (Route<dynamic> route) => false);
+          }
+
 
 
       }).catchError((e) {

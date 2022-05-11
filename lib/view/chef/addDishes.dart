@@ -86,7 +86,7 @@ class _AddDishesState extends State<AddDishes> {
             _diet == Diet.Vegetarian ? true : false,
             _status == Status.Active ? true : false,
             Constants.loggedInUserID
-            ,_randomNumber1, [] ,_randomNumber1
+            ,_randomNumber1, [] ,_randomNumber1,0
         ));
       });
       uploadedFileURL="";
