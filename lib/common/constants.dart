@@ -10,6 +10,7 @@ class firebase
 class Constants {
   static List<DishModel> dish = [
   ];
+  static List<DishModel> cartList = [];
   static const int SPLASH_SCREEN_TIME = 2;
   static int processIndex=0;
   static String loggedInUserID="",myName="",myEmail="";

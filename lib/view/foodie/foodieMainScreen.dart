@@ -1,5 +1,6 @@
 import 'dart:math';
 
+import 'package:badges/badges.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:kitchen_anywhere/common/colorConstants.dart';
@@ -10,11 +11,13 @@ import 'package:kitchen_anywhere/repository/dishRep.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:kitchen_anywhere/view/foodie/cartScreen.dart';
 import 'package:kitchen_anywhere/view/foodie/foodieProfileScreen.dart';
 import 'package:kitchen_anywhere/view/foodie/foodieSettingScreen.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'allDishScreen.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class FoodieMainPage extends StatefulWidget {
   @override
@@ -54,6 +57,7 @@ class _FoodieMainPageState extends State<FoodieMainPage>
     setState(() {
       Constants.dish.addAll(dishdata);
       loading = false;
+      Constants.cartList.addAll(Constants.dish);
     });
   }
 
@@ -86,6 +90,37 @@ class _FoodieMainPageState extends State<FoodieMainPage>
         ),
         elevation: 0.0,
         centerTitle: false,
+        actions: [        Padding(
+            padding: const EdgeInsets.only(top: 5, right: 20, left: 5),
+            child: Container(
+              child: Badge(
+                position: BadgePosition.topEnd(top: 0, end: 0),
+                badgeColor: Colors.red,
+                badgeContent: Text(
+                  Constants.cartList.length.toString(),
+                  style: TextStyle(color: Colors.white),
+                ),
+                child: IconButton(
+                  icon: Icon(
+                    FontAwesomeIcons.shoppingBasket,
+                    size: 25,
+                  ),
+                  onPressed: () {
+                   Navigator.push(
+                     context,
+                     MaterialPageRoute(builder: (context) => CartPage()),
+                   ).then((value) {
+                     setState(() {
+
+                     });
+                   });
+                  },
+                  color: Colors.white,
+                  tooltip: 'Cart',
+                ),
+
+              ),
+            ))],
       ),
       body: currentIndex == 0 ? Column(
         mainAxisSize: MainAxisSize.max,

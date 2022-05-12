@@ -60,6 +60,8 @@ dev_dependencies:
   image_picker:
   bubble_bottom_bar:
   carousel_slider:
+  font_awesome_flutter:
+  badges:
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
