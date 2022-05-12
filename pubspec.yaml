@@ -39,6 +39,11 @@ dependencies:
   http:
   email_validator:
   material_color_gen: ^2.0.0
+  hexcolor: ^2.0.5
+  ionicons: ^0.1.2
+  google_fonts: ^2.1.0
+  flutter_rating_bar: ^4.0.0
+  flutter_picker: ^2.0.3
 
 dev_dependencies:
   flutter_test:

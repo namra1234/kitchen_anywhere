@@ -14,6 +14,8 @@ import 'package:kitchen_anywhere/view/chef/chefProfileScreen.dart';
 import 'package:kitchen_anywhere/view/chef/chefSettingScreen.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
 
+import '../foodie/viewDishDetails.dart';
+
 class ChefMainPage extends StatefulWidget {
 
   @override
@@ -101,7 +103,7 @@ class _ChefMainPageState extends State<ChefMainPage>
         child: ChefMainPage(),
       ):
       currentIndex == 1 ?
-      ChefProfilePage() : currentIndex == 3 ?ChefSettingScreen() : ChefSettingScreen()
+      ChefProfilePage() : currentIndex == 3 ? ChefSettingScreen() : ViewInDeatils()
       ,
 
     );
