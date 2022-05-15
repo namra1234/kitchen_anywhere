@@ -12,6 +12,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class CartPage extends StatefulWidget {
 
@@ -26,15 +27,20 @@ class _CartPageState extends State<CartPage>
   double subtotal = 0;
   double tax = 0;
   double total = 0;
-
+  late Razorpay _razorpay;
   @override
   void initState() {
     calculatePrice();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerErrorFailure);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
     super.initState();
   }
 
   @override
   void dispose() {
+    _razorpay.clear();
     super.dispose();
   }
 
@@ -95,8 +101,38 @@ class _CartPageState extends State<CartPage>
 void checkout()
 {
 
-}
+  var options = {
+    'key': 'rzp_test_5Pxl7JMkLPQDPZ',
+    'amount': total*100,
+    'name': 'Kitchen Anywhere',
+    'description': 'Payment for Kitchen App',
+    'currency': 'CAD',
+    'prefill': {
+      'contact': "" + Constants.userdata.phoneNo,
+      'email': Constants.userdata.email,
+      'method': 'card'
+     },
+     'remember_customer':true
+  };
 
+  try {
+    _razorpay.open(options);
+  } catch (e) {
+    debugPrint('Error: e');
+  }
+}
+  void handlerPaymentSuccess(){
+    print("Pament success");
+    showSnackBar("Pament success");
+  }
+  void handlerErrorFailure(){
+    print("Pament error");
+    showSnackBar("Pament error");
+  }
+  void handlerExternalWallet(){
+    print("External Wallet");
+    showSnackBar("External Wallet");
+  }
   Widget CartPage() {
     return Constants.cartList.length != 0
         ? Padding(
