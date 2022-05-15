@@ -32,9 +32,9 @@ class _CartPageState extends State<CartPage>
   void initState() {
     calculatePrice();
     _razorpay = Razorpay();
-    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlerPaymentSuccess);
-    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlerErrorFailure);
-    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, handlerExternalWallet);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlerPaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlerErrorFailure);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handlerExternalWallet);
     super.initState();
   }
 
@@ -118,19 +118,20 @@ void checkout()
   try {
     _razorpay.open(options);
   } catch (e) {
+    print("error"+ e.toString());
     debugPrint('Error: e');
   }
 }
-  void handlerPaymentSuccess(){
-    print("Pament success");
+  void _handlerPaymentSuccess(PaymentSuccessResponse response){
+    print("Pament success" + response.toString());
     showSnackBar("Pament success");
   }
-  void handlerErrorFailure(){
-    print("Pament error");
+  void _handlerErrorFailure(PaymentFailureResponse response){
+    print("Pament error" + response.toString());
     showSnackBar("Pament error");
   }
-  void handlerExternalWallet(){
-    print("External Wallet");
+  void _handlerExternalWallet(ExternalWalletResponse response){
+    print("External Wallet" + response.toString());
     showSnackBar("External Wallet");
   }
   Widget CartPage() {
