@@ -12,6 +12,7 @@ import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 class CartPage extends StatefulWidget {
 
@@ -26,15 +27,20 @@ class _CartPageState extends State<CartPage>
   double subtotal = 0;
   double tax = 0;
   double total = 0;
-
+  late Razorpay _razorpay;
   @override
   void initState() {
     calculatePrice();
+    _razorpay = Razorpay();
+    _razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, _handlerPaymentSuccess);
+    _razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, _handlerErrorFailure);
+    _razorpay.on(Razorpay.EVENT_EXTERNAL_WALLET, _handlerExternalWallet);
     super.initState();
   }
 
   @override
   void dispose() {
+    _razorpay.clear();
     super.dispose();
   }
 
@@ -95,8 +101,39 @@ class _CartPageState extends State<CartPage>
 void checkout()
 {
 
-}
+  var options = {
+    'key': 'rzp_test_5Pxl7JMkLPQDPZ',
+    'amount': total*100,
+    'name': 'Kitchen Anywhere',
+    'description': 'Payment for Kitchen App',
+    'currency': 'CAD',
+    'prefill': {
+      'contact': "" + Constants.userdata.phoneNo,
+      'email': Constants.userdata.email,
+      'method': 'card'
+     },
+     'remember_customer':true
+  };
 
+  try {
+    _razorpay.open(options);
+  } catch (e) {
+    print("error"+ e.toString());
+    debugPrint('Error: e');
+  }
+}
+  void _handlerPaymentSuccess(PaymentSuccessResponse response){
+    print("Pament success" + response.toString());
+    showSnackBar("Pament success");
+  }
+  void _handlerErrorFailure(PaymentFailureResponse response){
+    print("Pament error" + response.toString());
+    showSnackBar("Pament error");
+  }
+  void _handlerExternalWallet(ExternalWalletResponse response){
+    print("External Wallet" + response.toString());
+    showSnackBar("External Wallet");
+  }
   Widget CartPage() {
     return Constants.cartList.length != 0
         ? Padding(
