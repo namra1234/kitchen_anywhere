@@ -103,7 +103,7 @@ class _ChefMainPageState extends State<ChefMainPage>
         child: ChefMainPage(),
       ):
       currentIndex == 1 ?
-      ChefProfilePage() : currentIndex == 3 ? ChefSettingScreen() : ViewInDeatils()
+      ChefProfilePage() : currentIndex == 3 ? ChefSettingScreen() : ChefSettingScreen()
       ,
 
     );
@@ -233,7 +233,13 @@ class _ChefMainPageState extends State<ChefMainPage>
     var imgDish = NetworkImage(dishModel.dishImageLink);
     int star = Random().nextInt(5);
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ViewInDeatils(dish_: dishModel)),
+        );
+        print("---------------------- taped");
+      },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Container(

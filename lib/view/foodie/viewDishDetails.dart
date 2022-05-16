@@ -4,13 +4,15 @@ import 'package:hexcolor/hexcolor.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_picker/flutter_picker.dart';
+import 'package:kitchen_anywhere/common/colorConstants.dart';
+
 
 import '../../model/dishModel.dart';
 
 class ViewInDeatils extends StatefulWidget {
-  // DishModel dish_;
+  DishModel dish_;
 
-  const ViewInDeatils({Key? key,}) : super(key: key);
+  ViewInDeatils({Key? key,required this.dish_}) : super(key: key);
 
   @override
   State<ViewInDeatils> createState() => _ViewInDeatilsState();
@@ -31,25 +33,41 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
   void initState() {
     super.initState();
     _rating = _initialRating;
+    titleImage_ = widget.dish_.dishImageLink;
+    lblFoodTitle = widget.dish_.dishTitle;
+    lblFoodDescription = widget.dish_.description;
+    foodPrice = widget.dish_.price;
+    isFavorite = true;
+
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      child: Column(
-        children: <Widget>[
-          TitleImage(),
-          const SizedBox(height: 5),
-          BodyPart(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              Ratings(),
-              NumberPicker(),
+    return MaterialApp(
+      title: "Detial page",
+      home: Scaffold(
+        appBar: AppBar(title: Text("Details"),backgroundColor: ColorConstants.secondaryColor,leading: IconButton(
+            icon: Icon(Icons.arrow_back),
+            onPressed: () {
+              Navigator.pop(context);
+            }),),
+        body: Container(
+          child: Column(
+            children: <Widget>[
+              TitleImage(),
+              const SizedBox(height: 5),
+              BodyPart(),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  Ratings(),
+                  NumberPicker(),
+                ],
+              ),
+              bottomPart(),
             ],
           ),
-          bottomPart(),
-        ],
+        )
       ),
     );
   }
@@ -58,8 +76,9 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
     return Container(
       child: Stack(
         children: <Widget>[
-          Image.asset(titleImage_,
+          Image.network(titleImage_,
             height: MediaQuery.of(context).size.height * .45,
+            fit:BoxFit.fill,
           ),
           Positioned(
             child: FloatingActionButton(
@@ -223,6 +242,22 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
       hoverColor: HexColor("243D25"),
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(20)
+      ),
+    );
+  }
+
+  Widget Review(){
+    return Padding(
+      padding: const EdgeInsets.all(8.0),
+      child: TextField(textAlign: TextAlign.center,
+        cursorColor: Colors.red,
+        maxLines: 2,
+        cursorRadius: Radius.circular(16.0),
+        decoration: InputDecoration(
+            border: OutlineInputBorder(),
+            helperText: "Write a review",
+            prefixIcon: Icon(Icons.edit_note_rounded)
+        ),
       ),
     );
   }
