@@ -91,7 +91,6 @@ class _AllDishViewPageState extends State<AllDishViewPage>
                       children: [
                         SwipeActionCell(
                             key: ObjectKey(Constants.dish[index]),
-
                             child: AllDish(Constants.dish[index], index)),
                         SizedBox(height: 15,)
                       ],
@@ -114,7 +113,9 @@ class _AllDishViewPageState extends State<AllDishViewPage>
     var imgDish = NetworkImage(dishModel.dishImageLink);
     int star = Random().nextInt(5);
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        print("tapped");
+      },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Container(
@@ -123,6 +124,7 @@ class _AllDishViewPageState extends State<AllDishViewPage>
             color: dishModel.isActive ? ColorConstants.primaryColor.withOpacity(0.1) : Colors.red.withOpacity(0.1),
             shape: BoxShape.rectangle,
           ),
+
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
