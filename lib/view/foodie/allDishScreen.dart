@@ -10,6 +10,7 @@ import 'package:kitchen_anywhere/repository/dishRep.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:kitchen_anywhere/view/foodie/viewDishDetails.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
 
 class AllDishViewPage extends StatefulWidget {
@@ -114,6 +115,10 @@ class _AllDishViewPageState extends State<AllDishViewPage>
     int star = Random().nextInt(5);
     return GestureDetector(
       onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ViewInDeatils(dish_: dishModel)),
+        );
         print("tapped");
       },
       child: ClipRRect(
