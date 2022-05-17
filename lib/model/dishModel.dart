@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 class DishModel {
+  final String? id;
   final String dishTitle;
   final String dishImageLink;
   final String description;
@@ -18,13 +19,14 @@ class DishModel {
   int qty;
 
 
-  DishModel(this.dishTitle,this.dishImageLink,this.typeOfDish,this.description,
+  DishModel(this.id,this.dishTitle,this.dishImageLink,this.typeOfDish,this.description,
       this.price,this.maxLimit,this.pending_limit,this.isVegetarian,this.isActive,this.chef_id,
       this.categoryId,this.favouriteUserID,this.start,this.qty
       );
 
   Map<String, dynamic> toJson() {
     return {
+      'id': id,
       'dishTitle': dishTitle,
       'dishImageLink': dishImageLink,
       'typeOfDish':typeOfDish,
@@ -39,13 +41,13 @@ class DishModel {
       'favouriteUserID' : favouriteUserID,
       'start' : start,
       'qty':this.qty
-
     };
   }
 
   factory DishModel.fromMap(Map<String, dynamic> map) {
 
     return DishModel(
+        map['id'],
         map['dishTitle'],
         map['dishImageLink'],
         map['typeOfDish'],
