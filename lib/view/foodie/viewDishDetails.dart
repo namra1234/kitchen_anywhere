@@ -62,21 +62,24 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
             onPressed: () {
               Navigator.pop(context);
             }),),
-        body: Container(
-          child: Column(
-            children: <Widget>[
-              TitleImage(),
-              const SizedBox(height: 5),
-              BodyPart(),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  Ratings(),
-                  NumberPicker(),
-                ],
-              ),
-              bottomPart(),
-            ],
+        body: SingleChildScrollView(
+          child: Container(
+            child: Wrap(
+              children: <Widget>[
+                TitleImage(),
+                 SizedBox(height: 5),
+                BodyPart(),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Ratings(),
+                    NumberPicker(),
+                  ],
+                ),
+                Review(),
+                bottomPart(),
+              ],
+            ),
           ),
         )
       ),

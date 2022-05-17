@@ -124,8 +124,6 @@ class _FoodieMainPageState extends State<FoodieMainPage>
             ))],
       ),
       body: currentIndex == 0 ? Column(
-        mainAxisSize: MainAxisSize.max,
-        // mainAxisSize: MainAxisSize.max,
         children: [
           Padding(
             padding: EdgeInsets.only(top: 20),
