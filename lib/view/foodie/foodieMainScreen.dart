@@ -14,6 +14,7 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:kitchen_anywhere/view/foodie/cartScreen.dart';
 import 'package:kitchen_anywhere/view/foodie/foodieProfileScreen.dart';
 import 'package:kitchen_anywhere/view/foodie/foodieSettingScreen.dart';
+import 'package:kitchen_anywhere/view/foodie/viewDishDetails.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'allDishScreen.dart';
@@ -302,7 +303,13 @@ class _FoodieMainPageState extends State<FoodieMainPage>
     var imgDish = NetworkImage(dishModel.dishImageLink);
     int star = Random().nextInt(5);
     return GestureDetector(
-      onTap: () {},
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ViewInDeatils(dish_: dishModel)),
+        );
+        print("taped");
+      },
       child: ClipRRect(
         borderRadius: BorderRadius.circular(20),
         child: Container(

@@ -5,6 +5,8 @@ import 'package:ionicons/ionicons.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_picker/flutter_picker.dart';
 import 'package:kitchen_anywhere/common/colorConstants.dart';
+import 'package:kitchen_anywhere/common/constants.dart';
+import 'package:kitchen_anywhere/common/AlertView.dart';
 
 
 import '../../model/dishModel.dart';
@@ -37,8 +39,17 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
     lblFoodTitle = widget.dish_.dishTitle;
     lblFoodDescription = widget.dish_.description;
     foodPrice = widget.dish_.price;
+    qtyNumber = widget.dish_.qty;
     isFavorite = true;
 
+  }
+
+  void showSnackBar(String message) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 
   @override
@@ -273,7 +284,37 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
           Expanded(
             child: InkWell(
               onTap: () {
-                print("Add to cart");
+                print("Add to cart $qtyNumber");
+                if(qtyNumber != 0)
+                  {
+                      bool flag = false;
+                    Constants.cartList.forEach((element) {
+                      if(element.dishImageLink == widget.dish_.dishImageLink)
+                        {
+                          setState(() {
+                            element.qty = element.qty + qtyNumber;
+                            flag = true;
+                          });
+                        }
+
+                    });
+
+                    if(!flag)
+                      {
+                        Constants.cartList.add(widget.dish_);
+                      }
+
+                    alertOpen.showAlertOnebtn(context: context,title: "Inform",btnTitle: "ok",message: "Item added to card!");
+                    setState(() {
+                      qtyNumber = 0;
+                    });
+                  }
+                else
+                  {
+                    alertOpen.showAlertOnebtn(context: context,title: "Inform",btnTitle: "ok",message: "Please add quantity");
+
+                  }
+
               },
               child: Container(
                 alignment: Alignment.center,
