@@ -11,20 +11,41 @@ class DishRepository {
   final CollectionReference collection =
   FirebaseFirestore.instance.collection('Dish');
 
-  dynamic createDish(DishModel Dishmodel) async {
+  dynamic createDish(Map<String, dynamic> Dishmodel) async {
 
     try{
       final newDocRef = collection.doc();
-      Map? DishMap = Dishmodel.toJson();
-      await newDocRef.set(DishMap);
+      await newDocRef.set(Dishmodel);
+      return true;
+    }
+    catch(e){
+      print(e);
+      return false;
+    }
+
+  }
+  dynamic updateDish(Map<String, Object?> Dishmodel,String? docId) async{
+    try{
+      final newDocRef = collection.doc(docId);
+      // Map DishMap = Dishmodel.toJson();
+      await newDocRef.update(Dishmodel);
       return true;
     }
     catch(e){
       return false;
     }
-
   }
-
+  dynamic deleteDish(String? docId) async{
+    try{
+      final newDocRef = collection.doc(docId);
+      // Map DishMap = Dishmodel.toJson();
+      await newDocRef.delete();
+      return true;
+    }
+    catch(e){
+      return false;
+    }
+  }
   Future<List<DishModel>> getAllDish() async {
     List<DishModel> dishList=[];
     final docSnapshot = await collection
@@ -37,6 +58,7 @@ class DishRepository {
       for(int i=0;i<snapshot.docs.length;i++)
         {
           Map<String, dynamic>? data=snapshot.docs[i].data() as Map<String, dynamic>?;
+          String? id = snapshot.docs[i].id;
           String? dishTitle = data!["dishTitle"].toString();
           String dishImageLink = data['dishImageLink'].toString();
           String typeOfDish = data['typeOfDish'].toString();
@@ -52,7 +74,7 @@ class DishRepository {
           Random random = Random();
           int _randomNumber1 = random.nextInt(5);
 
-          Map? DishMap =  DishModel(dishTitle,dishImageLink,typeOfDish,description,price,maxLimit,pending_limit,
+          Map? DishMap =  DishModel(id,dishTitle,dishImageLink,typeOfDish,description,price,maxLimit,pending_limit,
               isVegetarian,isActive,Constants.loggedInUserID,categoryId, [] ,_randomNumber1,0
 
           ).toJson();
@@ -77,6 +99,7 @@ class DishRepository {
       for(int i=0;i<snapshot.docs.length;i++)
       {
         Map<String, dynamic>? data=snapshot.docs[i].data() as Map<String, dynamic>?;
+        String? id = snapshot.docs[i].id;
         String? dishTitle = data!["dishTitle"].toString();
         String dishImageLink = data['dishImageLink'].toString();
         String typeOfDish = data['typeOfDish'].toString();
@@ -92,7 +115,7 @@ class DishRepository {
         Random random = Random();
         int _randomNumber1 = random.nextInt(5);
 
-        Map? DishMap =  DishModel(dishTitle,dishImageLink,typeOfDish,description,price,maxLimit,pending_limit,
+        Map? DishMap =  DishModel(id,dishTitle,dishImageLink,typeOfDish,description,price,maxLimit,pending_limit,
             isVegetarian,isActive,Constants.loggedInUserID,categoryId, [] ,_randomNumber1,0
 
         ).toJson();

@@ -12,18 +12,18 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:image_picker/image_picker.dart';
 
-
 import '../../model/dishModel.dart';
 
 class AddDishes extends StatefulWidget {
-  const AddDishes({Key? key}) : super(key: key);
+  late DishModel? dish_;
+  late int? index;
+  AddDishes({Key? key, this.dish_, this.index}) : super(key: key);
 
   @override
   _AddDishesState createState() => _AddDishesState();
 }
 
 class _AddDishesState extends State<AddDishes> {
-
   late TextEditingController dishTitleController,
       priceController,
       cusineController,
@@ -34,83 +34,136 @@ class _AddDishesState extends State<AddDishes> {
   Status? _status = Status.Active;
   late File _image;
   bool uploadingImage = false;
+  bool isEdit = false;
   String uploadedFileURL = "";
   late DishModel _dishModel;
 
   final _formKey = GlobalKey<FormState>();
   GlobalKey<ScaffoldState> scaffoldKey = new GlobalKey<ScaffoldState>();
 
-
   void showSnackBar(String message) {
-    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      content: Text(message),
-    ),);
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+      ),
+    );
   }
 
   @override
   void initState() {
     super.initState();
+    print("call");
+    print(widget.dish_);
     dishTitleController = TextEditingController();
     priceController = TextEditingController();
     cusineController = TextEditingController();
     numberOfDishes = TextEditingController();
     description = TextEditingController();
     dishImageLinkController = TextEditingController();
+    if (widget.dish_ != null) {
+      isEdit = true;
+      dishTitleController.text = widget.dish_!.dishTitle;
+      priceController.text = widget.dish_!.price.toString();
+      cusineController.text = widget.dish_!.typeOfDish;
+      numberOfDishes.text = widget.dish_!.maxLimit.toString();
+      description.text = widget.dish_!.description;
+      uploadedFileURL = widget.dish_!.dishImageLink;
+      _diet = widget.dish_!.isVegetarian ? Diet.Vegetarian : Diet.NonVegetarian;
+      _status = widget.dish_!.isActive ? Status.Active : Status.Deactive;
+    }
   }
-
 
   @override
   void dispose() {
     super.dispose();
-    uploadedFileURL="";
+    uploadedFileURL = "";
   }
 
-  void submitData(){
-
+  void submitData() {
     if (_formKey.currentState!.validate()) {
       FocusManager.instance.primaryFocus?.unfocus();
-
-      double price = double.parse(priceController.text.toString());
-      int dish = int.parse(numberOfDishes.text.toString());
-      Random random = Random();
-      int _randomNumber1 = random.nextInt(5);
-      setState(() {
-        DishRepository().createDish(DishModel(
-            dishTitleController.text,
-            uploadedFileURL=="" ? "https://e1.pngegg.com/pngimages/621/910/png-clipart-food-2-food-thumbnail.png" : uploadedFileURL,
-            cusineController.text,
-            description.text,
-            price,
-            dish,
-            dish,
-            _diet == Diet.Vegetarian ? true : false,
-            _status == Status.Active ? true : false,
-            Constants.loggedInUserID
-            ,_randomNumber1, [] ,_randomNumber1,0
-        ));
-      });
-      uploadedFileURL="";
-      showSnackBar("Dish Added Successfully.");
-      Navigator.of(context).pop();
+      if (isEdit) {
+        editDish();
+      } else {
+        addDish();
+      }
     }
   }
 
+  void addDish() {
+    double price = double.parse(priceController.text.toString());
+    int dish = int.parse(numberOfDishes.text.toString());
+    Random random = Random();
+    int _randomNumber1 = random.nextInt(5);
+    setState(() {
+      DishRepository().createDish({
+        'dishTitle': dishTitleController.text,
+        'dishImageLink': uploadedFileURL == ""
+            ? "https://e1.pngegg.com/pngimages/621/910/png-clipart-food-2-food-thumbnail.png"
+            : uploadedFileURL,
+        'typeOfDish': cusineController.text,
+        'description': description.text,
+        'price': price,
+        'maxLimit': dish,
+        'pending_limit': dish,
+        'isVegetarian': _diet == Diet.Vegetarian ? true : false,
+        'isActive': _status == Status.Active ? true : false,
+        'chef_id': Constants.loggedInUserID,
+        'categoryId': _randomNumber1,
+        'favouriteUserID': [],
+        'start': _randomNumber1,
+        'qty': 0
+      });
+    });
+    uploadedFileURL = "";
+    showSnackBar("Dish Added Successfully.");
+    Navigator.of(context).pop();
+  }
 
+  void editDish() {
+    double price = double.parse(priceController.text.toString());
+    int dish = int.parse(numberOfDishes.text.toString());
+    Random random = Random();
+    int _randomNumber1 = random.nextInt(5);
+    setState(() {
+      DishRepository().updateDish({
+        'dishTitle': dishTitleController.text,
+        'dishImageLink': uploadedFileURL == ""
+            ? "https://e1.pngegg.com/pngimages/621/910/png-clipart-food-2-food-thumbnail.png"
+            : uploadedFileURL,
+        'typeOfDish': cusineController.text,
+        'description': description.text,
+        'price': price,
+        'maxLimit': dish,
+        'pending_limit': dish,
+        'isVegetarian': _diet == Diet.Vegetarian ? true : false,
+        'isActive': _status == Status.Active ? true : false,
+        'chef_id': Constants.loggedInUserID,
+        'categoryId': widget.dish_?.categoryId,
+        'favouriteUserID': widget.dish_ != null? widget.dish_?.favouriteUserID : [],
+        'start': widget.dish_?.start,
+        'qty': 0
+      },widget.dish_?.id);
+    });
+    uploadedFileURL = "";
+    showSnackBar("Dish Updated Successfully.");
+    Navigator.of(context).pop();
+  }
 
   Future getImage() async {
-
     final picker = ImagePicker();
 
-      final pickedFile = await picker.getImage(source: ImageSource.gallery);
-
+    final pickedFile = await picker.getImage(source: ImageSource.gallery);
 
     setState(() {
       uploadingImage = true;
     });
     FirebaseStorage storage = FirebaseStorage.instance;
-    Reference storageReference =
-    FirebaseStorage.instance.ref().child(Constants.loggedInUserID+Constants.dish.length.toString());
-    UploadTask uploadTask = storageReference.putFile(File(pickedFile!.path.toString()));
+    Reference storageReference = FirebaseStorage.instance
+        .ref()
+        .child(Constants.loggedInUserID + Constants.dish.length.toString());
+    UploadTask uploadTask =
+        storageReference.putFile(File(pickedFile!.path.toString()));
     await uploadTask.then((taskSnapshot) async {
       uploadedFileURL = await taskSnapshot.ref.getDownloadURL();
       // _showSnackBar("Successfully uploaded profile picture");
@@ -122,58 +175,44 @@ class _AddDishesState extends State<AddDishes> {
     });
   }
 
-
-
   imageBrowser() {
     print("Choose images");
   }
 
-
-
   @override
   Widget build(BuildContext context) {
-    Constants.height = MediaQuery
-        .of(context)
-        .size
-        .height;
-    Constants.width = MediaQuery
-        .of(context)
-        .size
-        .width;
-
+    Constants.height = MediaQuery.of(context).size.height;
+    Constants.width = MediaQuery.of(context).size.width;
 
     Widget mainTitle = Container(
       padding: EdgeInsets.only(top: 30, left: 30, right: 30),
-      child: const Text("Make Dishes",
+      child: const Text(
+        "Make Dishes",
         textAlign: TextAlign.center,
         style: TextStyle(
             fontWeight: FontWeight.bold,
             fontSize: 40,
-            color: ColorConstants.primaryColor
-        ),
+            color: ColorConstants.primaryColor),
       ),
     );
 
     Widget subTitle = Container(
       padding: EdgeInsets.all(5),
-      child: const Text("Reveal your spécialité",
+      child: const Text(
+        "Reveal your spécialité",
         textAlign: TextAlign.center,
-        style: TextStyle(
-            fontSize: 25,
-            color: ColorConstants.greyColor
-        ),
+        style: TextStyle(fontSize: 25, color: ColorConstants.greyColor),
       ),
     );
 
     Widget dishtitleTextBox = Container(
       // decoration: TrioBorder(Colors.red),
-      padding: EdgeInsets.only(top: 20,bottom: 20),
+      padding: EdgeInsets.only(top: 20, bottom: 20),
       child: TextFormField(
         controller: dishTitleController,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
-          labelStyle:
-          TextStyle(color: Colors.black),
+          labelStyle: TextStyle(color: Colors.black),
           hintText: "Dish Title",
           labelText: "Dish Title",
         ),
@@ -193,16 +232,23 @@ class _AddDishesState extends State<AddDishes> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Container(
-            // padding: EdgeInsets.all(1),
-            child: uploadedFileURL  == "" ?
-
-            Image.asset('assets/images/fastfood.png', fit: BoxFit.fill,
-              colorBlendMode: BlendMode.lighten,
-              height: 100,
-              width: 100,) : Image.network(uploadedFileURL,height: 100,width: 100, fit: BoxFit.fill,)
-          ),
+              // padding: EdgeInsets.all(1),
+              child: uploadedFileURL == ""
+                  ? Image.asset(
+                      'assets/images/fastfood.png',
+                      fit: BoxFit.fill,
+                      colorBlendMode: BlendMode.lighten,
+                      height: 100,
+                      width: 100,
+                    )
+                  : Image.network(
+                      uploadedFileURL,
+                      height: 100,
+                      width: 100,
+                      fit: BoxFit.fill,
+                    )),
           Container(
-            // padding: EdgeInsets.all(10),
+              // padding: EdgeInsets.all(10),
               child: centerButton(
                   Constants.height / 20,
                   Constants.width * 0.55,
@@ -211,8 +257,7 @@ class _AddDishesState extends State<AddDishes> {
                   ColorConstants.whiteColor,
                   "Browse Image",
                   getImage,
-                  context)
-          )
+                  context))
         ],
       ),
     );
@@ -226,8 +271,7 @@ class _AddDishesState extends State<AddDishes> {
         controller: priceController,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
-          labelStyle:
-          TextStyle(color: Colors.black),
+          labelStyle: TextStyle(color: Colors.black),
           hintText: "Price",
           labelText: "Price per Dish",
         ),
@@ -246,15 +290,15 @@ class _AddDishesState extends State<AddDishes> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-
           Container(
-            child: const Text('Diet:', style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.greyColor
-            ),),
+            child: const Text(
+              'Diet:',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: ColorConstants.greyColor),
+            ),
           ),
-
           Row(
             children: [
               Radio(
@@ -269,7 +313,6 @@ class _AddDishesState extends State<AddDishes> {
               Text('Vegetarian'),
             ],
           ),
-
           Row(
             children: [
               Radio(
@@ -284,8 +327,6 @@ class _AddDishesState extends State<AddDishes> {
               Text('Non-Vegetarian'),
             ],
           )
-
-
         ],
       ),
     );
@@ -297,8 +338,7 @@ class _AddDishesState extends State<AddDishes> {
         controller: cusineController,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
-          labelStyle:
-          TextStyle(color: Colors.black),
+          labelStyle: TextStyle(color: Colors.black),
           hintText: "Type of Cusine",
           labelText: "Type of Cusine",
         ),
@@ -317,15 +357,15 @@ class _AddDishesState extends State<AddDishes> {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: <Widget>[
-
           Container(
-            child: const Text('Status:', style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: ColorConstants.greyColor
-            ),),
+            child: const Text(
+              'Status:',
+              style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                  color: ColorConstants.greyColor),
+            ),
           ),
-
           Row(
             children: [
               Radio(
@@ -337,10 +377,9 @@ class _AddDishesState extends State<AddDishes> {
                   });
                 },
               ),
-              Text('Vegetarian'),
+              Text('Active'),
             ],
           ),
-
           Row(
             children: [
               Radio(
@@ -364,31 +403,32 @@ class _AddDishesState extends State<AddDishes> {
     Widget qntyPerDayUpload = Container(
       // decoration: TrioBorder(Colors.red),
       child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Text("Max Quantity (per Day): ",style: TextStyle(fontSize: 20,color: ColorConstants.greyColor),),
-        SizedBox(
-          width: 100,
-          child: TextFormField(
-            controller: numberOfDishes,
-            keyboardType: TextInputType.number,
-            decoration: const InputDecoration(
-              hintText: 'Qualntity',
-              labelText: 'Quantity',
-            ),
-            validator: (value) {
-              if (value!.isEmpty) {
-                return "Add Quantity";
-              }
-
-              return null;
-            },
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          Text(
+            "Max Quantity (per Day): ",
+            style: TextStyle(fontSize: 20, color: ColorConstants.greyColor),
           ),
-        ),
+          SizedBox(
+            width: 100,
+            child: TextFormField(
+              controller: numberOfDishes,
+              keyboardType: TextInputType.number,
+              decoration: const InputDecoration(
+                hintText: 'Qualntity',
+                labelText: 'Quantity',
+              ),
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return "Add Quantity";
+                }
 
-
-
-          ],),
+                return null;
+              },
+            ),
+          ),
+        ],
+      ),
     );
 
     Widget DescriptionTextBox = Container(
@@ -398,8 +438,7 @@ class _AddDishesState extends State<AddDishes> {
         controller: description,
         decoration: const InputDecoration(
           border: OutlineInputBorder(),
-          labelStyle:
-          TextStyle(color: Colors.black),
+          labelStyle: TextStyle(color: Colors.black),
           hintText: "Description",
           labelText: "Description",
         ),
@@ -414,66 +453,61 @@ class _AddDishesState extends State<AddDishes> {
     );
 
     Widget SubmitButton = Container(
-      // padding: EdgeInsets.all(10),
+        // padding: EdgeInsets.all(10),
         child: centerButton(
             Constants.height / 20,
             Constants.width * 0.35,
             Constants.width * 0.12,
             ColorConstants.secondaryColor,
             ColorConstants.whiteColor,
-            "Add Dish",
+            isEdit ? "Edit Dish" : "Add Dish",
             submitData,
-            context)
-    );
-
+            context));
 
     return Scaffold(
-    backgroundColor: ColorConstants.whiteColor,
-    appBar: AppBar(
-      backgroundColor: ColorConstants.secondaryColor,
-      title: Row(
-        children: [
-          Padding(
-            padding: EdgeInsets.all(5.0),
-            child: Text("Kitchen Anywhere"),
-          )
-        ],
+      backgroundColor: ColorConstants.whiteColor,
+      appBar: AppBar(
+        backgroundColor: ColorConstants.secondaryColor,
+        title: Row(
+          children: [
+            Padding(
+              padding: EdgeInsets.all(5.0),
+              child: Text("Kitchen Anywhere"),
+            )
+          ],
+        ),
+        elevation: 0.0,
+        centerTitle: false,
       ),
-      elevation: 0.0,
-      centerTitle: false,
-    ),
-    body: SafeArea(
-    child: Form(
-      key: _formKey,
-      child: SingleChildScrollView(
-        child: Padding(
-          padding:  EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            children: [
-              mainTitle,
-              subTitle,
-              dishtitleTextBox,
-              imageUpload,
-              priceTextBox,
-              dietRadioGrp,
-              cusineTypeTextBox,
-              statusRadioGrp,
-              qntyPerDayUpload,
+      body: SafeArea(
+          child: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              children: [
+                mainTitle,
+                subTitle,
+                dishtitleTextBox,
+                imageUpload,
+                priceTextBox,
+                dietRadioGrp,
+                cusineTypeTextBox,
+                statusRadioGrp,
+                qntyPerDayUpload,
                 DescriptionTextBox,
                 SubmitButton,
-              SizedBox(height: 20,)
-            ],
+                SizedBox(
+                  height: 20,
+                )
+              ],
+            ),
           ),
         ),
-      ),
-    )
-    ),
+      )),
     );
-
-
   }
-
-
 }
 
 enum Diet { Vegetarian, NonVegetarian }
