@@ -289,7 +289,7 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
                   {
                       bool flag = false;
                     Constants.cartList.forEach((element) {
-                      if(element.dishImageLink == widget.dish_.dishImageLink)
+                      if(element.id == widget.dish_.id)
                         {
                           setState(() {
                             element.qty = element.qty + qtyNumber;
