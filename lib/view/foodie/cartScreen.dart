@@ -315,6 +315,12 @@ void checkout()
                                         setState(() {
                                           Constants.cartList.remove(dishModel);
                                           calculatePrice();
+
+                                            if(Constants.cartList.length==0)
+                                            {
+                                              loading = false;
+                                            }
+
                                         });
                                       },
                                       child: Container(child:Icon(Icons.cancel_outlined,color: ColorConstants.primaryColor,)))

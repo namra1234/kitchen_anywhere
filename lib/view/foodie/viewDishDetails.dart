@@ -295,7 +295,7 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
                       if(element.id == widget.dish_.id)
                         {
                           setState(() {
-                            element.qty = element.qty + qtyNumber;
+                            element.qty = qtyNumber;
                             flag = true;
                           });
                         }
@@ -308,9 +308,7 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
                       }
 
                     alertOpen.showAlertOnebtn(context: context,title: "Inform",btnTitle: "ok",message: "Item added to card!");
-                    setState(() {
-                      qtyNumber = 0;
-                    });
+
                   }
                 else
                   {

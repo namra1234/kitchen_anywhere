@@ -58,7 +58,6 @@ class _FoodieMainPageState extends State<FoodieMainPage>
     setState(() {
       Constants.dish.addAll(dishdata);
       loading = false;
-      Constants.cartList.addAll(Constants.dish);
     });
   }
 
