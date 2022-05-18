@@ -21,9 +21,10 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage>
-    with WidgetsBindingObserver {
+    with WidgetsBindingObserver
+{
 
-  bool loading = true;
+  bool loading = false;
   double subtotal = 0;
   double tax = 0;
   double total = 0;
