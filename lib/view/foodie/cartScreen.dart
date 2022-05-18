@@ -52,8 +52,9 @@ class _CartPageState extends State<CartPage>
     });
 
     setState(() {
+      subtotal = double.parse(((subtotal)).toStringAsFixed(2));
       tax = double.parse(((subtotal)*0.10).toStringAsFixed(2));
-      total = tax+subtotal;
+      total = double.parse(((tax+subtotal)).toStringAsFixed(2));
     });
 
 
