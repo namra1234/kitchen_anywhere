@@ -156,7 +156,6 @@ class _FoodieMainPageState extends State<FoodieMainPage>
             Container(
               child: FoodieMainPage(),
             )
-
             ,
           ),
         ],

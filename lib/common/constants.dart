@@ -40,8 +40,8 @@ static String imgbaseurl='http://guard-my-vote.s3.us-east-2.amazonaws.com/';
 
 
 
-   static String loginUrl = 'auth/login';
-   static String forgotpwdUrl = 'auth/forgot-password';
+static String loginUrl = 'auth/login';
+ static String forgotpwdUrl = 'auth/forgot-password';
  static String getCMSpageUrl ='get-cms-page-links';
  static String logoutUrl = 'auth/logout';
  static String getSurveyCountUrl ='get-survey-count';

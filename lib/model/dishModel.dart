@@ -7,6 +7,7 @@ class DishModel {
   final String description;
   final String typeOfDish;
   final String chef_id;
+  final String postal_code;
   final double price;
   final int maxLimit;
   final int pending_limit;
@@ -21,7 +22,7 @@ class DishModel {
 
   DishModel(this.id,this.dishTitle,this.dishImageLink,this.typeOfDish,this.description,
       this.price,this.maxLimit,this.pending_limit,this.isVegetarian,this.isActive,this.chef_id,
-      this.categoryId,this.favouriteUserID,this.start,this.qty
+      this.categoryId,this.favouriteUserID,this.start,this.qty,this.postal_code
       );
 
   Map<String, dynamic> toJson() {
@@ -40,7 +41,8 @@ class DishModel {
       'categoryId': categoryId,
       'favouriteUserID' : favouriteUserID,
       'start' : start,
-      'qty':this.qty
+      'qty':this.qty,
+      'postal_code':this.postal_code
     };
   }
 
@@ -61,7 +63,8 @@ class DishModel {
         map['categoryId'],
         map['favouriteUserID'],
         map['start'],
-        map['qty']
+        map['qty'],
+        map['postal_code']
     );
   }
 
