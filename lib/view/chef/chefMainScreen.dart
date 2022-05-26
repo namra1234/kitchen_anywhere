@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:math';
 
 import 'package:flutter/cupertino.dart';
@@ -14,6 +15,7 @@ import 'package:kitchen_anywhere/view/chef/chefProfileScreen.dart';
 import 'package:kitchen_anywhere/view/chef/chefSettingScreen.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
 
+import '../../notification/notification_bloc.dart';
 import '../foodie/viewDishDetails.dart';
 
 class ChefMainPage extends StatefulWidget {
@@ -25,11 +27,19 @@ class _ChefMainPageState extends State<ChefMainPage>
     with WidgetsBindingObserver {
   int currentIndex = 0;
   bool loading = true;
+  late StreamSubscription<Map> _notificationSubscription;
+
+
+  _performActionOnNotification(Map<String, dynamic> message) async {
+print("he");
+  }
 
   @override
   void initState() {
     currentIndex = 0;
     getDishList();
+    _notificationSubscription = NotificationsBloc.instance.notificationStream
+        .listen(_performActionOnNotification);
     super.initState();
   }
 
@@ -53,6 +63,7 @@ class _ChefMainPageState extends State<ChefMainPage>
 
   @override
   void dispose() {
+    _notificationSubscription.cancel();
     super.dispose();
   }
 
