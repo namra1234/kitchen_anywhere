@@ -20,6 +20,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'allDishScreen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import 'foodieOrderList.dart';
+
 class FoodieMainPage extends StatefulWidget {
   @override
   _FoodieMainPageState createState() => _FoodieMainPageState();
@@ -159,7 +161,7 @@ class _FoodieMainPageState extends State<FoodieMainPage>
             ,
           ),
         ],
-      ) : currentIndex == 1 ? ProfilePage() : currentIndex == 3 ? FoodieSettingScreen() :ProfilePage()
+      ) : currentIndex == 1 ? ProfilePage() : currentIndex == 3 ? FoodieSettingScreen() :FoodieOrderView()
       ,
     );
   }

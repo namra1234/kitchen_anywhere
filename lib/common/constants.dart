@@ -2,6 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:kitchen_anywhere/model/dishModel.dart';
 import 'package:kitchen_anywhere/model/userModel.dart';
 
+import '../model/OrderModel.dart';
+
 class firebase
 {
 
@@ -11,6 +13,7 @@ class Constants {
   static List<DishModel> dish = [
   ];
   static List<DishModel> cartList = [];
+  static List<OrderModel> AllOrderList = [];
   static const int SPLASH_SCREEN_TIME = 2;
   static int processIndex=0;
   static String loggedInUserID="",myName="",myEmail="";
