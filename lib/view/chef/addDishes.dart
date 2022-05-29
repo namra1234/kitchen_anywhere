@@ -112,7 +112,8 @@ class _AddDishesState extends State<AddDishes> {
         'categoryId': _randomNumber1,
         'favouriteUserID': [],
         'start': _randomNumber1,
-        'qty': 0
+        'qty': 0,
+        'postal_code' : Constants.userdata.postal_code
       });
     });
     uploadedFileURL = "";
@@ -142,7 +143,8 @@ class _AddDishesState extends State<AddDishes> {
         'categoryId': widget.dish_?.categoryId,
         'favouriteUserID': widget.dish_ != null? widget.dish_?.favouriteUserID : [],
         'start': widget.dish_?.start,
-        'qty': 0
+        'qty': 0,
+        'postal_code' : Constants.userdata.postal_code
       },widget.dish_?.id);
     });
     uploadedFileURL = "";

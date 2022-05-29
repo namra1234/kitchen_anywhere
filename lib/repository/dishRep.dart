@@ -63,6 +63,7 @@ class DishRepository {
           String dishImageLink = data['dishImageLink'].toString();
           String typeOfDish = data['typeOfDish'].toString();
           String description = data['description'].toString();
+          String postal_code = data['postal_code'].toString();
           double price = double.parse(data['price'].toString());
           int maxLimit = data['maxLimit'].toInt();
           int categoryId = data['categoryId'].toInt();
@@ -75,8 +76,7 @@ class DishRepository {
           int _randomNumber1 = random.nextInt(5);
 
           Map? DishMap =  DishModel(id,dishTitle,dishImageLink,typeOfDish,description,price,maxLimit,pending_limit,
-              isVegetarian,isActive,Constants.loggedInUserID,categoryId, [] ,_randomNumber1,0
-
+              isVegetarian,isActive,Constants.loggedInUserID,categoryId, [] ,_randomNumber1,0,postal_code
           ).toJson();
           dishList.add(DishModel.fromMap(DishMap as Map<String,dynamic>));
         }
@@ -106,6 +106,7 @@ class DishRepository {
         String description = data['description'].toString();
         double price = double.parse(data['price'].toString());
         int maxLimit = data['maxLimit'].toInt();
+        String postal_code = data['postal_code'].toString();
         int categoryId = data['categoryId'].toInt();
         int pending_limit = data['pending_limit'].toInt();
         bool isVegetarian  = data['isVegetarian'];
@@ -116,7 +117,7 @@ class DishRepository {
         int _randomNumber1 = random.nextInt(5);
 
         Map? DishMap =  DishModel(id,dishTitle,dishImageLink,typeOfDish,description,price,maxLimit,pending_limit,
-            isVegetarian,isActive,Constants.loggedInUserID,categoryId, [] ,_randomNumber1,0
+            isVegetarian,isActive,Constants.loggedInUserID,categoryId, [] ,_randomNumber1,0,postal_code
 
         ).toJson();
         dishList.add(DishModel.fromMap(DishMap as Map<String,dynamic>));

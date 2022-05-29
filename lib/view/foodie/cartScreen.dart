@@ -21,9 +21,10 @@ class CartPage extends StatefulWidget {
 }
 
 class _CartPageState extends State<CartPage>
-    with WidgetsBindingObserver {
+    with WidgetsBindingObserver
+{
 
-  bool loading = true;
+  bool loading = false;
   double subtotal = 0;
   double tax = 0;
   double total = 0;
@@ -52,8 +53,9 @@ class _CartPageState extends State<CartPage>
     });
 
     setState(() {
+      subtotal = double.parse(((subtotal)).toStringAsFixed(2));
       tax = double.parse(((subtotal)*0.10).toStringAsFixed(2));
-      total = tax+subtotal;
+      total = double.parse(((tax+subtotal)).toStringAsFixed(2));
     });
   }
 
@@ -309,6 +311,12 @@ void checkout()
                                         setState(() {
                                           Constants.cartList.remove(dishModel);
                                           calculatePrice();
+
+                                            if(Constants.cartList.length==0)
+                                            {
+                                              loading = false;
+                                            }
+
                                         });
                                       },
                                       child: Container(child:Icon(Icons.cancel_outlined,color: ColorConstants.primaryColor,)))
