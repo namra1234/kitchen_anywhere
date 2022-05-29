@@ -55,8 +55,6 @@ class _CartPageState extends State<CartPage>
       tax = double.parse(((subtotal)*0.10).toStringAsFixed(2));
       total = tax+subtotal;
     });
-
-
   }
 
   void showSnackBar(String message) {
@@ -123,15 +121,12 @@ void checkout()
   }
 }
   void _handlerPaymentSuccess(PaymentSuccessResponse response){
-    print("Pament success" + response.toString());
-    showSnackBar("Pament success");
+    showSnackBar("Payment successful");
   }
   void _handlerErrorFailure(PaymentFailureResponse response){
-    print("Pament error" + response.toString());
-    showSnackBar("Pament error");
+    showSnackBar("Payment error");
   }
   void _handlerExternalWallet(ExternalWalletResponse response){
-    print("External Wallet" + response.toString());
     showSnackBar("External Wallet");
   }
   Widget CartPage() {

@@ -284,7 +284,6 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
           Expanded(
             child: InkWell(
               onTap: () {
-                print("Add to cart $qtyNumber");
                 if(qtyNumber != 0)
                   {
                       bool flag = false;
@@ -305,9 +304,9 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
                       }
 
                     alertOpen.showAlertOnebtn(context: context,title: "Inform",btnTitle: "ok",message: "Item added to card!");
-                    setState(() {
-                      qtyNumber = 0;
-                    });
+                    // setState(() {
+                    //   qtyNumber = 0;
+                    // });
                   }
                 else
                   {

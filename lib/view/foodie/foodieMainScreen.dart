@@ -58,7 +58,6 @@ class _FoodieMainPageState extends State<FoodieMainPage>
     setState(() {
       Constants.dish.addAll(dishdata);
       loading = false;
-      Constants.cartList.addAll(Constants.dish);
     });
   }
 
@@ -302,6 +301,7 @@ class _FoodieMainPageState extends State<FoodieMainPage>
   Widget DishView(DishModel dishModel, int index) {
     var imgDish = NetworkImage(dishModel.dishImageLink);
     int star = Random().nextInt(5);
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -393,7 +393,6 @@ class _FoodieMainPageState extends State<FoodieMainPage>
                                     setState(() {
                                       dishModel.qty++;
                                     });
-
                                   },
                                   child: Container(
                                     height:20,
@@ -405,8 +404,7 @@ class _FoodieMainPageState extends State<FoodieMainPage>
                                     child: Center(child: Text('+',style: CustomTextStyle.regularText(12, Constants.width)
                                         .apply(color: ColorConstants.whiteColor))),
                                   ),
-                                )
-                                ,
+                                ),
                                 Container(
                                   child: Center(child: Text(dishModel.qty.toString())),
                                 ),
