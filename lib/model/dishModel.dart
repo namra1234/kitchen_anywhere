@@ -26,6 +26,7 @@ class DishModel {
       );
 
   Map<String, dynamic> toJson() {
+
     return {
       'id': id,
       'dishTitle': dishTitle,
@@ -48,23 +49,31 @@ class DishModel {
 
   factory DishModel.fromMap(Map<String, dynamic> map) {
 
+    List<String> temp = [];
+    temp.add("");
+
+    int maxLimit = map['maxLimit'].toInt();
+    int categoryId = map['categoryId'].toInt();
+    int pending_limit = map['pending_limit'].toInt();
+
+    maxLimit=10;
     return DishModel(
         map['id'],
         map['dishTitle'],
         map['dishImageLink'],
         map['typeOfDish'],
         map['description'],
-        map['price'],
-        map['maxLimit'],
-        map['pending_limit'],
+        double.parse(map['price'].toString()),
+        maxLimit,
+        pending_limit,
         map['isVegetarian'],
         map['isActive'],
         map['chef_id'],
-        map['categoryId'],
-        map['favouriteUserID'],
-        map['start'],
+        categoryId,
+        [],
+        5,
         map['qty'],
-        map['postal_code']
+        map['postal_code']==null ? "" : map['postal_code']
     );
   }
 
