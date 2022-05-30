@@ -1,6 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
-import 'dart:js';
+// import 'dart:js';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
@@ -138,11 +138,11 @@ class NotificationService {
   }
 
   /// This method will modify the message format of iOS Notification Data
-  Map _modifyNotificationJson(Map<String, dynamic> message) {
-    message['data'] = Map.from(message ?? {});
-    message['notification'] = message['aps']['alert'];
-    return message;
-  }
+  // Map _modifyNotificationJson(Map<String, dynamic> message) {
+  //   message['data'] = Map.from(message ?? {});
+  //   message['notification'] = message['aps']['alert'];
+  //   return message;
+  // }
 
   
 
