@@ -300,6 +300,7 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
                   });
 
                   if (!flag) {
+                    widget.dish_.qty = qtyNumber;
                     Constants.cartList.add(widget.dish_);
                   }
 

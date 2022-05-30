@@ -2,6 +2,8 @@ import 'package:intl/intl.dart';
 import 'package:kitchen_anywhere/model/dishModel.dart';
 import 'package:kitchen_anywhere/model/userModel.dart';
 
+import '../model/OrderModel.dart';
+
 class firebase {}
 
 class Constants {

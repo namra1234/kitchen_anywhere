@@ -11,6 +11,7 @@ import 'package:kitchen_anywhere/repository/dishRep.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:kitchen_anywhere/view/foodie/OrderConfirmationScreen.dart';
 import 'package:kitchen_anywhere/view/foodie/cartScreen.dart';
 import 'package:kitchen_anywhere/view/foodie/foodieProfileScreen.dart';
 import 'package:kitchen_anywhere/view/foodie/foodieSettingScreen.dart';
@@ -249,7 +250,7 @@ class _FoodieMainPageState extends State<FoodieMainPage>
                     onTap: (){
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                           AllDishViewPage())).then((value) {
+                           OrderConfirmation())).then((value) {
                              setState(() {
 
                              });

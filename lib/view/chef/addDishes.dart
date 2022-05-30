@@ -52,8 +52,7 @@ class _AddDishesState extends State<AddDishes> {
   @override
   void initState() {
     super.initState();
-    print("call");
-    print(widget.dish_);
+
     dishTitleController = TextEditingController();
     priceController = TextEditingController();
     cusineController = TextEditingController();

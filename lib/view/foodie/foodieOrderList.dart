@@ -26,7 +26,7 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
     // for (int i = 0; i < 30; i++) {
     //   data.add(Random().nextInt(100) + 1);
     // }
-    getDishList();
+    getOrderList();
   }
 
   
@@ -285,7 +285,7 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
   }
 
 
-  void getDishList() async {
+  void getOrderList() async {
     List<OrderModel> orderData = [];
 
     orderData = await OrderRepository().getAllOrder();

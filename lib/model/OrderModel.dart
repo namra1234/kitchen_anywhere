@@ -3,7 +3,6 @@ import 'dishModel.dart';
 
 
 class OrderModel {
-  final String? id;
   final String chefId;
   final String contactOfFoodie;
   final List<DishModel> dishList;
@@ -14,12 +13,11 @@ class OrderModel {
   final String userId;
 
 
-  OrderModel(this.id,this.chefId,this.contactOfFoodie,this.dishList,this.nameOfFoodie,
+  OrderModel(this.chefId,this.contactOfFoodie,this.dishList,this.nameOfFoodie,
       this.orderDate,this.orderId,this.orderStatus,this.userId);
 
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
       'chefId': chefId,
       'contactOfFoodie': contactOfFoodie,
       'dishList':dishList,
@@ -32,9 +30,7 @@ class OrderModel {
   }
 
   factory OrderModel.fromMap(Map<String, dynamic> map) {
-
     return OrderModel(
-        map['id'],
         map['chefId'],
         map['contactOfFoodie'],
         map['dishList'],

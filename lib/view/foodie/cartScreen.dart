@@ -9,10 +9,12 @@ import 'package:kitchen_anywhere/common/textStyle.dart';
 import 'package:kitchen_anywhere/model/dishModel.dart';
 import 'package:kitchen_anywhere/repository/dishRep.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
-import 'package:kitchen_anywhere/view/chef/addDishes.dart';
-import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
-import 'package:kitchen_anywhere/widget/BottomBar.dart';
+import 'package:kitchen_anywhere/repository/orderRep.dart';
+import 'package:kitchen_anywhere/view/foodie/OrderConfirmationScreen.dart';
+
 import 'package:razorpay_flutter/razorpay_flutter.dart';
+
+import '../../model/OrderModel.dart';
 
 class CartPage extends StatefulWidget {
 
@@ -103,7 +105,7 @@ void checkout()
 
   var options = {
     'key': 'rzp_test_5Pxl7JMkLPQDPZ',
-    'amount': total*100,
+    'amount':  (total*100).round(),
     'name': 'Kitchen Anywhere',
     'description': 'Payment for Kitchen App',
     'currency': 'CAD',
@@ -124,8 +126,42 @@ void checkout()
 }
   void _handlerPaymentSuccess(PaymentSuccessResponse response){
     showSnackBar("Payment successful");
+    DateTime now = new DateTime.now();
+    Random random = new Random();
+    int x = random.nextInt(10000);
+    addOrderToFirebase(OrderModel(Constants.cartList[0].chef_id,Constants.userdata.phoneNo,Constants.cartList,Constants.userdata.fullName,now,Constants.userdata.userID+x.toString(),"pending",Constants.userdata.userID));
+
+  }
+  void addOrderToFirebase(OrderModel orderModel){
+    List<Map> dishListMap = [];
+    orderModel.dishList.forEach((DishModel dish) {
+      Map dishMap = dish.toJson();
+      dishListMap.add(dishMap);
+    });
+    setState(() {
+      OrderRepository().createOrder({
+        'chefId': orderModel.chefId,
+        'contactOfFoodie': orderModel.contactOfFoodie,
+        'dishList':dishListMap,
+        'nameOfFoodie':orderModel.nameOfFoodie,
+        'orderDate': orderModel.orderDate,
+        'orderId': orderModel.orderId,
+        'orderStatus':orderModel.orderStatus,
+        'userId': orderModel.userId
+      });
+      Constants.cartList.clear();
+    });
+    Navigator.push(
+      context,
+      MaterialPageRoute(builder: (context) => const OrderConfirmation()),
+    ).then((value) {
+      setState(() {
+
+      });
+    });
   }
   void _handlerErrorFailure(PaymentFailureResponse response){
+    print(response.message);
     showSnackBar("Payment error");
   }
   void _handlerExternalWallet(ExternalWalletResponse response){
