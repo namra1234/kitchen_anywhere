@@ -72,7 +72,7 @@ class OrderRepository {
           int pending_limit = d['pending_limit'].toInt();
           bool isVegetarian  = d['isVegetarian'];
           bool isActive  = d['isActive'];
-          int qty = int.parse(d['qty'].toString());
+          int qty = d['qty'];
 
           Random random = Random();
           int _randomNumber1 = random.nextInt(5);

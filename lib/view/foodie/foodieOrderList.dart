@@ -33,7 +33,6 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Order List"),),
       body: Container(
         child: Column(
           children: <Widget>[
@@ -41,7 +40,7 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
               child: ScrollSnapList(
                 onItemFocus: _onItemFocus,
                 itemBuilder: _buildItemList,
-                itemSize: 150,
+                itemSize: 200,
                 // dynamicItemSize: true,
                 onReachEnd: () {
                   print('Done!');

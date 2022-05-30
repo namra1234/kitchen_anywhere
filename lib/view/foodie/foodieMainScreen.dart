@@ -250,7 +250,7 @@ class _FoodieMainPageState extends State<FoodieMainPage>
                     onTap: (){
                       Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) =>
-                           OrderConfirmation())).then((value) {
+                           AllDishViewPage())).then((value) {
                              setState(() {
 
                              });

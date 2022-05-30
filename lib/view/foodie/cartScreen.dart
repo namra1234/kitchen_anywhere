@@ -154,11 +154,7 @@ void checkout()
     Navigator.push(
       context,
       MaterialPageRoute(builder: (context) => const OrderConfirmation()),
-    ).then((value) {
-      setState(() {
-
-      });
-    });
+    );
   }
   void _handlerErrorFailure(PaymentFailureResponse response){
     print(response.message);

@@ -18,7 +18,6 @@ class UserRepository {
         .get()
         .then((var snapshot) async {
       final newDocRef = collection.doc();
-      print(newDocRef);
       if (snapshot.docs.length == 0) {
         final newDocRef = collection.doc();
         Map? UserMap = Usermodel.toJson();
@@ -34,7 +33,17 @@ class UserRepository {
       }
     });
   }
-
+  Future<bool> updateUser(UserModel userModel,String? docId) async{
+    try{
+      final newDocRef = collection.doc(docId);
+      await newDocRef.update(userModel.toJson());
+      Constants.userdata = userModel;
+      return true;
+    }
+    catch(e){
+      return false;
+    }
+  }
   dynamic getUser(String userID) async {
 
     final docSnapshot = await collection
