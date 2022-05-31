@@ -31,17 +31,4 @@ class validationMsg {
   static String noInternet = 'Please connect to the internet to continue.';
 }
 
-class reqserver {
-  static String baseurl = 'https://php2.shaligraminfotech.com/owle/public/api/';
-  static String getBase1 = 'php2.shaligraminfotech.com';
-  static String getBase2 = '/owle/public/api/';
-  static String imgbaseurl = 'http://guard-my-vote.s3.us-east-2.amazonaws.com/';
 
-  static String loginUrl = 'auth/login';
-  static String forgotpwdUrl = 'auth/forgot-password';
-  static String getCMSpageUrl = 'get-cms-page-links';
-  static String logoutUrl = 'auth/logout';
-  static String getSurveyCountUrl = 'get-survey-count';
-  static String getSurveyListUrl = 'get-survey-list';
-  static String getSurveyQuestionUrl = 'get-survey-questions';
-}
