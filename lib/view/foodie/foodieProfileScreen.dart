@@ -7,8 +7,10 @@ import 'package:kitchen_anywhere/common/colorConstants.dart';
 import 'package:kitchen_anywhere/common/constants.dart';
 import 'package:kitchen_anywhere/common/textStyle.dart';
 import 'package:kitchen_anywhere/model/dishModel.dart';
+import 'package:kitchen_anywhere/model/userModel.dart';
 import 'package:kitchen_anywhere/repository/dishRep.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
+import 'package:kitchen_anywhere/repository/userRep.dart';
 import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
@@ -43,7 +45,9 @@ class _ProfilePageState extends State<ProfilePage> with WidgetsBindingObserver {
 
   void save()
   {
-
+    UserModel userModel = UserModel(Constants.userdata.userID, Constants.userdata.email, fullName.text, address.text, postal_code.text, phoneNo.text, Constants.userdata.isChef);
+    UserRepository().updateUser(userModel,Constants.userdata.userID);
+    showSnackBar("Profile Updated Successfully.");
   }
 
   void showSnackBar(String message) {
@@ -57,7 +61,6 @@ class _ProfilePageState extends State<ProfilePage> with WidgetsBindingObserver {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-
         body:
             // currentIndex == 0 ?
             SingleChildScrollView(
@@ -99,10 +102,10 @@ class _ProfilePageState extends State<ProfilePage> with WidgetsBindingObserver {
           ),
           Container(
             child: TextField(
+              enabled: false,
               controller: email,
               decoration: InputDecoration(
                 fillColor: Colors.green,
-                disabledBorder: OutlineInputBorder(),
                 labelText: 'Your Email',
               ),
             ),

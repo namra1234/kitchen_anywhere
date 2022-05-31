@@ -26,14 +26,13 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
     // for (int i = 0; i < 30; i++) {
     //   data.add(Random().nextInt(100) + 1);
     // }
-    getDishList();
+    getOrderList();
   }
 
   
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text("Order List"),),
       body: Container(
         child: Column(
           children: <Widget>[
@@ -41,7 +40,7 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
               child: ScrollSnapList(
                 onItemFocus: _onItemFocus,
                 itemBuilder: _buildItemList,
-                itemSize: 150,
+                itemSize: 200,
                 // dynamicItemSize: true,
                 onReachEnd: () {
                   print('Done!');
@@ -285,7 +284,7 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
   }
 
 
-  void getDishList() async {
+  void getOrderList() async {
     List<OrderModel> orderData = [];
 
     orderData = await OrderRepository().getAllOrder();

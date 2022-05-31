@@ -10,8 +10,7 @@ class OrderRepository {
   final CollectionReference collection =
   FirebaseFirestore.instance.collection('Order');
 
-  dynamic createDish(Map<String, dynamic> OrderModel) async {
-
+  dynamic createOrder(Map<String, dynamic> OrderModel) async {
     try{
       final newDocRef = collection.doc();
       await newDocRef.set(OrderModel);
@@ -73,19 +72,18 @@ class OrderRepository {
           int pending_limit = d['pending_limit'].toInt();
           bool isVegetarian  = d['isVegetarian'];
           bool isActive  = d['isActive'];
-          // int qty = int.parse(d['qty'].toString());
+          int qty = d['qty'];
 
           Random random = Random();
           int _randomNumber1 = random.nextInt(5);
 
           Map? DishMap =  DishModel(id,dishTitle,dishImageLink,typeOfDish,description,price,maxLimit,pending_limit,
-              isVegetarian,isActive,Constants.loggedInUserID,categoryId, [] ,_randomNumber1,0,postal_code
+              isVegetarian,isActive,Constants.loggedInUserID,categoryId, [] ,_randomNumber1,qty,postal_code
           ).toJson();
           dishList1.add(DishModel.fromMap(DishMap as Map<String,dynamic>));
 
         }
 
-        String? id = snapshot.docs[i].id;
         String chefId = data!["chefId"].toString();
         String contactOfFoodie = data['contactOfFoodie'].toString();
         // List<DishModel> dishList = dishList1;
@@ -99,7 +97,7 @@ class OrderRepository {
         Random random = Random();
         int _randomNumber1 = random.nextInt(5);
 
-        Map? OrderMap =  OrderModel(id,chefId,contactOfFoodie,dishList1,nameOfFoodie,orderDate,orderId,orderStatus,userId).toJson();
+        Map? OrderMap =  OrderModel(chefId,contactOfFoodie,dishList1,nameOfFoodie,orderDate,orderId,orderStatus,userId).toJson();
         orderList.add(OrderModel.fromMap(OrderMap as Map<String,dynamic>));
       }
 
@@ -121,7 +119,6 @@ class OrderRepository {
       for(int i=0;i<snapshot.docs.length;i++)
       {
         Map<String, dynamic>? data=snapshot.docs[i].data() as Map<String, dynamic>?;
-        String? id = snapshot.docs[i].id;
         String chefId = data!["chefId"].toString();
         String contactOfFoodie = data['contactOfFoodie'].toString();
         List<DishModel> dishList = data['dishList'];
@@ -135,7 +132,7 @@ class OrderRepository {
         Random random = Random();
         int _randomNumber1 = random.nextInt(5);
 
-        Map? OrderMap =  OrderModel(id,chefId,contactOfFoodie,dishList,nameOfFoodie,orderDate,orderId,orderStatus,userId).toJson();
+        Map? OrderMap =  OrderModel(chefId,contactOfFoodie,dishList,nameOfFoodie,orderDate,orderId,orderStatus,userId).toJson();
         orderList.add(OrderModel.fromMap(OrderMap as Map<String,dynamic>));
       }
 

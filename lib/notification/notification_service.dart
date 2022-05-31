@@ -137,7 +137,7 @@ class NotificationService {
     _performActionOnNotification(message);
   }
 
-  /// This method will modify the message format of iOS Notification Data
+  // /// This method will modify the message format of iOS Notification Data
   // Map _modifyNotificationJson(Map<String, dynamic> message) {
   //   message['data'] = Map.from(message ?? {});
   //   message['notification'] = message['aps']['alert'];

@@ -11,6 +11,7 @@ import 'package:kitchen_anywhere/repository/dishRep.dart';
 import 'package:flutter_swipe_action_cell/flutter_swipe_action_cell.dart';
 import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
+import 'package:kitchen_anywhere/view/foodie/OrderConfirmationScreen.dart';
 import 'package:kitchen_anywhere/view/foodie/cartScreen.dart';
 import 'package:kitchen_anywhere/view/foodie/foodieProfileScreen.dart';
 import 'package:kitchen_anywhere/view/foodie/foodieSettingScreen.dart';
@@ -300,6 +301,7 @@ class _FoodieMainPageState extends State<FoodieMainPage>
   Widget DishView(DishModel dishModel, int index) {
     var imgDish = NetworkImage(dishModel.dishImageLink);
     int star = Random().nextInt(5);
+
     return GestureDetector(
       onTap: () {
         Navigator.push(
@@ -391,7 +393,6 @@ class _FoodieMainPageState extends State<FoodieMainPage>
                                     setState(() {
                                       dishModel.qty++;
                                     });
-
                                   },
                                   child: Container(
                                     height:20,
@@ -403,8 +404,7 @@ class _FoodieMainPageState extends State<FoodieMainPage>
                                     child: Center(child: Text('+',style: CustomTextStyle.regularText(12, Constants.width)
                                         .apply(color: ColorConstants.whiteColor))),
                                   ),
-                                )
-                                ,
+                                ),
                                 Container(
                                   child: Center(child: Text(dishModel.qty.toString())),
                                 ),
