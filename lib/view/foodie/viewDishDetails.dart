@@ -8,13 +8,12 @@ import 'package:kitchen_anywhere/common/colorConstants.dart';
 import 'package:kitchen_anywhere/common/constants.dart';
 import 'package:kitchen_anywhere/common/AlertView.dart';
 
-
 import '../../model/dishModel.dart';
 
 class ViewInDeatils extends StatefulWidget {
   DishModel dish_;
 
-  ViewInDeatils({Key? key,required this.dish_}) : super(key: key);
+  ViewInDeatils({Key? key, required this.dish_}) : super(key: key);
 
   @override
   State<ViewInDeatils> createState() => _ViewInDeatilsState();
@@ -26,7 +25,8 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
   String titleImage_ = "assets/images/fastfood.png";
   String lblFoodTitle = "Sandwich";
   double foodPrice = 120.0;
-  String lblFoodDescription = "A food with a sharp taste. Often used to refer to tart or sour foods as well.";
+  String lblFoodDescription =
+      "A food with a sharp taste. Often used to refer to tart or sour foods as well.";
   bool isLoading = false;
   int qtyNumber = 1;
   bool isFavorite = true;
@@ -41,7 +41,6 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
     foodPrice = widget.dish_.price;
     qtyNumber = widget.dish_.qty;
     isFavorite = true;
-
   }
 
   void showSnackBar(String message) {
@@ -57,32 +56,35 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
     return MaterialApp(
       title: "Detial page",
       home: Scaffold(
-        appBar: AppBar(title: Text("Details"),backgroundColor: ColorConstants.secondaryColor,leading: IconButton(
-            icon: Icon(Icons.arrow_back),
-            onPressed: () {
-              Navigator.pop(context);
-            }),),
-        body: SingleChildScrollView(
-          child: Container(
-            child: Wrap(
-              children: <Widget>[
-                TitleImage(),
-                 SizedBox(height: 5),
-                BodyPart(),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    Ratings(),
-                    NumberPicker(),
-                  ],
-                ),
-                Review(),
-                bottomPart(),
-              ],
-            ),
+          appBar: AppBar(
+            title: Text("Details"),
+            backgroundColor: ColorConstants.secondaryColor,
+            leading: IconButton(
+                icon: Icon(Icons.arrow_back),
+                onPressed: () {
+                  Navigator.pop(context);
+                }),
           ),
-        )
-      ),
+          body: SingleChildScrollView(
+            child: Container(
+              child: Wrap(
+                children: <Widget>[
+                  TitleImage(),
+                  SizedBox(height: 5),
+                  BodyPart(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      Ratings(),
+                      NumberPicker(),
+                    ],
+                  ),
+                  Review(),
+                  bottomPart(),
+                ],
+              ),
+            ),
+          )),
     );
   }
 
@@ -90,9 +92,10 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
     return Container(
       child: Stack(
         children: <Widget>[
-          Image.network(titleImage_,
+          Image.network(
+            titleImage_,
             height: MediaQuery.of(context).size.height * .45,
-            fit:BoxFit.fill,
+            fit: BoxFit.fill,
           ),
           Positioned(
             child: FloatingActionButton(
@@ -106,15 +109,13 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
                 backgroundColor: Colors.white,
                 onPressed: () {
                   //---------------------------------------------------
-                      setState(() {
-                        isFavorite = !isFavorite;
-                      });
-
+                  setState(() {
+                    isFavorite = !isFavorite;
+                  });
                 }),
             bottom: 0,
             right: 20,
           ),
-
         ],
       ),
     );
@@ -246,32 +247,32 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
   }
 
   Widget NumberPicker() {
-    return RaisedButton(onPressed: () => {
-    showPickerNumber(context, 20)
-    },
-    child: Text("Qty: $qtyNumber",style: TextStyle(color: Colors.white),),
+    return RaisedButton(
+      onPressed: () => {showPickerNumber(context, 20)},
+      child: Text(
+        "Qty: $qtyNumber",
+        style: TextStyle(color: Colors.white),
+      ),
       color: HexColor("006778"),
       elevation: 2,
       hoverElevation: 4,
       hoverColor: HexColor("243D25"),
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(20)
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
     );
   }
 
-  Widget Review(){
+  Widget Review() {
     return Padding(
       padding: const EdgeInsets.all(8.0),
-      child: TextField(textAlign: TextAlign.center,
+      child: TextField(
+        textAlign: TextAlign.center,
         cursorColor: Colors.red,
         maxLines: 2,
         cursorRadius: Radius.circular(16.0),
         decoration: InputDecoration(
             border: OutlineInputBorder(),
             helperText: "Write a review",
-            prefixIcon: Icon(Icons.edit_note_rounded)
-        ),
+            prefixIcon: Icon(Icons.edit_note_rounded)),
       ),
     );
   }
@@ -287,35 +288,37 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
           Expanded(
             child: InkWell(
               onTap: () {
-                print("Add to cart $qtyNumber");
-                if(qtyNumber != 0)
-                  {
-                      bool flag = false;
-                    Constants.cartList.forEach((element) {
-                      if(element.id == widget.dish_.id)
-                        {
-                          setState(() {
-                            element.qty = qtyNumber;
-                            flag = true;
-                          });
-                        }
+                if (qtyNumber != 0) {
+                  bool flag = false;
+                  Constants.cartList.forEach((element) {
+                    if (element.id == widget.dish_.id) {
+                      setState(() {
+                        element.qty = qtyNumber;
+                        flag = true;
+                      });
+                    }
+                  });
 
-                    });
-
-                    if(!flag)
-                      {
-                        Constants.cartList.add(widget.dish_);
-                      }
-
-                    alertOpen.showAlertOnebtn(context: context,title: "Inform",btnTitle: "ok",message: "Item added to card!");
-
-                  }
-                else
-                  {
-                    alertOpen.showAlertOnebtn(context: context,title: "Inform",btnTitle: "ok",message: "Please add quantity");
-
+                  if (!flag) {
+                    widget.dish_.qty = qtyNumber;
+                    Constants.cartList.add(widget.dish_);
                   }
 
+                  alertOpen.showAlertOnebtn(
+                      context: context,
+                      title: "Inform",
+                      btnTitle: "ok",
+                      message: "Item added to card!");
+                  // setState(() {
+                  //   qtyNumber = 0;
+                  // });
+                } else {
+                  alertOpen.showAlertOnebtn(
+                      context: context,
+                      title: "Inform",
+                      btnTitle: "ok",
+                      message: "Please add quantity");
+                }
               },
               child: Container(
                 alignment: Alignment.center,
@@ -352,11 +355,7 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
   showPickerNumber(BuildContext context, int pendingLimit) {
     Picker(
         adapter: NumberPickerAdapter(data: [
-          NumberPickerColumn(
-              begin: 0,
-              end: pendingLimit,
-            initValue: qtyNumber
-              ),
+          NumberPickerColumn(begin: 0, end: pendingLimit, initValue: qtyNumber),
         ]),
         hideHeader: true,
         title: Text("Please Select Qty"),
@@ -368,7 +367,6 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
           setState(() {
             qtyNumber = picker.selecteds.first;
           });
-
         }).showDialog(context);
   }
 }

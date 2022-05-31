@@ -13,6 +13,8 @@ import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
 
 import '../../common/buttonStyle.dart';
+import '../../model/userModel.dart';
+import '../../repository/userRep.dart';
 
 class ChefProfilePage extends StatefulWidget {
   @override
@@ -46,7 +48,9 @@ class _ChefProfilePageState extends State<ChefProfilePage> with WidgetsBindingOb
 
   void save()
   {
-
+    UserModel userModel = UserModel(Constants.userdata.userID, Constants.userdata.email, fullName.text, address.text, postal_code.text, phoneNo.text, Constants.userdata.isChef);
+    UserRepository().updateUser(userModel,Constants.userdata.userID);
+    showSnackBar("Profile Updated Successfully.");
   }
 
   void showSnackBar(String message) {
