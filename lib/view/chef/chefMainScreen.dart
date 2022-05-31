@@ -13,6 +13,7 @@ import 'package:kitchen_anywhere/view/chef/addDishes.dart';
 import 'package:bubble_bottom_bar/bubble_bottom_bar.dart';
 import 'package:kitchen_anywhere/view/chef/chefProfileScreen.dart';
 import 'package:kitchen_anywhere/view/chef/chefSettingScreen.dart';
+import 'package:kitchen_anywhere/view/foodie/foodieOrderList.dart';
 import 'package:kitchen_anywhere/widget/BottomBar.dart';
 
 import '../../notification/notification_bloc.dart';
@@ -110,7 +111,7 @@ print("he");
               ? ChefProfilePage()
               : currentIndex == 3
                   ? ChefSettingScreen()
-                  : ChefSettingScreen(),
+                  : FoodieOrderView(),
     );
   }
 

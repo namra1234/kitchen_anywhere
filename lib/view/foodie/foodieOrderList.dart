@@ -77,19 +77,21 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
             itemBuilder: (BuildContext context, int index) {
               return Card(
                 elevation: 8.0,
-
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(15.0),
+                  ),
                 margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
                 child: Container(
-                  decoration: BoxDecoration(color: Color.fromRGBO(184, 214, 176, .9)),
+                  decoration: BoxDecoration(color: Color.fromRGBO(238, 238, 238, .9),borderRadius: BorderRadius.circular(15)),
                   child: ListTile(
                     contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
                     leading: Container(
                       width: 100,
-                      padding: EdgeInsets.only(right: 12.0),
+                      // padding: EdgeInsets.only(right: 12.0),
                       decoration: new BoxDecoration(
                           border: new Border(
                               right: new BorderSide(width: 1.0, color: Colors.white24))),
-                      child: Image.network(Constants.AllOrderList[_focusedIndex].dishList[index].dishImageLink,fit: BoxFit.cover,),
+                      child: ClipRRect(child: Image.network(Constants.AllOrderList[_focusedIndex].dishList[index].dishImageLink,fit: BoxFit.fill,),borderRadius: BorderRadius.circular(15),),
                     ),
                     title: Text(
                       Constants.AllOrderList[_focusedIndex].dishList[index].dishTitle,
@@ -132,59 +134,6 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
     );
   }
 
-  Widget ProductList(){
-    return Container(
-      child: ListView.builder(
-        scrollDirection: Axis.vertical,
-        shrinkWrap: true,
-        itemCount: 10,
-        itemBuilder: (BuildContext context, int index) {
-          return Card(
-            elevation: 8.0,
-
-            margin: new EdgeInsets.symmetric(horizontal: 10.0, vertical: 6.0),
-            child: Container(
-              decoration: BoxDecoration(color: Color.fromRGBO(184, 214, 176, .9)),
-              child: ListTile(
-                  contentPadding: EdgeInsets.symmetric(horizontal: 20.0, vertical: 10.0),
-                  leading: Container(
-                    padding: EdgeInsets.only(right: 12.0),
-                    decoration: new BoxDecoration(
-                        border: new Border(
-                            right: new BorderSide(width: 1.0, color: Colors.white24))),
-                    child: Image.network(Constants.AllOrderList[_focusedIndex].dishList[index].dishImageLink),
-                  ),
-                  title: Text(
-                    Constants.AllOrderList[_focusedIndex].dishList[index].dishTitle,
-                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-                  ),
-                  // subtitle: Text("Intermediate", style: TextStyle(color: Colors.white)),
-
-                  subtitle: Column(
-                    children:[
-                      Row(
-                      children: <Widget>[
-                        Text(" Qty ", style: TextStyle(color: Colors.white)),
-                        Text(Constants.AllOrderList[_focusedIndex].dishList[index].qty.toString(), style: TextStyle(color: Colors.white))
-                      ],
-                    ),
-                      Row(
-                        children: <Widget>[
-                          Text(" Price ", style: TextStyle(color: Colors.white)),
-                          Text(Constants.AllOrderList[_focusedIndex].dishList[index].price.toString(), style: TextStyle(color: Colors.white))
-                        ],
-                      ),
-                    ]
-                  ),
-                  trailing:
-                  Image.asset('assets/images/veg.png'),
-            ),
-          ),);
-        },
-      ),
-    );
-  }
-
   Widget _buildItemList(BuildContext context, int index) {
 
     if (index == Constants.AllOrderList.length)
@@ -214,7 +163,7 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15.0),
                     ),
-                    color: Colors.greenAccent[100],
+                    color: Constants.AllOrderList[index].orderStatus == "pending" ? Color.fromRGBO(239, 234, 216, 1) : Color.fromRGBO(153, 196, 200, 1),
                     // color: Colors.white,
                     child: Padding(
                       padding: EdgeInsets.all(20),
@@ -255,20 +204,20 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
                               AnimatedTextKit(
                                 repeatForever: true,
                                   animatedTexts: [
-                                    ScaleAnimatedText(Constants.AllOrderList[index].orderStatus,textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Constants.AllOrderList[index].orderStatus == "pending" ? Colors.red : Colors.orange)),
-                                    ScaleAnimatedText(Constants.AllOrderList[index].orderStatus,textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Constants.AllOrderList[index].orderStatus == "pending" ? Colors.red : Colors.orange)),
-                                    ScaleAnimatedText(Constants.AllOrderList[index].orderStatus,textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Constants.AllOrderList[index].orderStatus == "pending" ? Colors.red : Colors.orange)),
+                                    ScaleAnimatedText(Constants.AllOrderList[index].orderStatus,textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Constants.AllOrderList[index].orderStatus == "pending" ? Colors.red : Color.fromRGBO(111, 76, 91, 1))),
+                                    ScaleAnimatedText(Constants.AllOrderList[index].orderStatus,textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Constants.AllOrderList[index].orderStatus == "pending" ? Colors.red : Color.fromRGBO(111, 76, 91, 1))),
+                                    ScaleAnimatedText(Constants.AllOrderList[index].orderStatus,textStyle: TextStyle(fontWeight: FontWeight.bold,fontSize: 15,color: Constants.AllOrderList[index].orderStatus == "pending" ? Colors.red : Color.fromRGBO(111, 76, 91, 1))),
                                   ]
                               ),
                             ],
                           ),
                           SizedBox(height: 20,),
-                          OutlinedButton(
-                            onPressed: () {
-                              debugPrint(Constants.AllOrderList[index].orderId);
-                            },
-                            child: const Text('See Details'),
-                          ),
+                          // OutlinedButton(
+                          //   onPressed: () {
+                          //     debugPrint(Constants.AllOrderList[index].orderId);
+                          //   },
+                          //   child: const Text('See Details'),
+                          // ),
                         ],
                       ),
                     ),
@@ -286,8 +235,17 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
 
   void getOrderList() async {
     List<OrderModel> orderData = [];
+      if(Constants.userdata.isChef)
+        {
+          print("-------------- chef orders -----------" + Constants.userdata.userID);
+          orderData = await OrderRepository().getChefAllDish(Constants.userdata.userID);
+        }
+      else
+        {
+          print("-------------- foodie orders -----------");
+          orderData = await OrderRepository().getFoodieAllDish(Constants.userdata.userID);
+        }
 
-    orderData = await OrderRepository().getAllOrder();
     // dishdata=await DishRepository().getChefAllDish(Constants.userdata.userID);
     Constants.AllOrderList.clear();
     setState(() {
