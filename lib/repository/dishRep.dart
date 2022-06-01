@@ -59,7 +59,7 @@ class DishRepository {
       for(int i=0;i<snapshot.docs.length;i++)
         {
           Map<String, dynamic>? data=snapshot.docs[i].data() as Map<String, dynamic>?;
-          String? id = snapshot.docs[i].id;
+          String? id = data!["chef_id"].toString();
           String? dishTitle = data!["dishTitle"].toString();
           String dishImageLink = data['dishImageLink'].toString();
           String typeOfDish = data['typeOfDish'].toString();

@@ -129,7 +129,7 @@ void checkout()
     DateTime now = new DateTime.now();
     Random random = new Random();
     int x = random.nextInt(10000);
-    addOrderToFirebase(OrderModel(Constants.cartList[0].chef_id,Constants.userdata.phoneNo,Constants.cartList,Constants.userdata.fullName,now,Constants.userdata.userID+x.toString(),"pending",Constants.userdata.userID));
+    addOrderToFirebase(OrderModel(Constants.cartList[0].id.toString(),Constants.userdata.phoneNo,Constants.cartList,Constants.userdata.fullName,now,Constants.userdata.userID+x.toString(),"pending",Constants.userdata.userID));
 
   }
   void addOrderToFirebase(OrderModel orderModel){
