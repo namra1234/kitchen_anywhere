@@ -107,9 +107,9 @@ class _ChefProfilePageState extends State<ChefProfilePage> with WidgetsBindingOb
           Container(
             child: TextField(
               controller: email,
+              enabled: false,
               decoration: InputDecoration(
                 fillColor: Colors.green,
-                disabledBorder: OutlineInputBorder(),
                 labelText: 'Your Email',
               ),
             ),

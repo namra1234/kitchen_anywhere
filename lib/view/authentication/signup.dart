@@ -454,7 +454,19 @@ class _SignupScreenState extends State<SignupScreen> {
         ),
       );
 
-      showSnackBar("Category Created Successfully");
+
+      emailController.text = "";
+      passwordController.text = "";
+      fullNameController.text = "";
+      addressController.text = "";
+      postalCodeController.text = "";
+      phoneNoController.text = "";
+      confirmPasswordController.text = "";
+
+      showSnackBar("Account has been created Successfully");
+
+      Navigator.of(context).push(MaterialPageRoute(builder: (context) =>
+      const LoginScreen()));
 
       //   Navigator.of(context).pushAndRemoveUntil(
       //   MaterialPageRoute(

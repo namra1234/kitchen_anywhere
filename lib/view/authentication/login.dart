@@ -257,36 +257,36 @@ class _LoginScreenState extends State<LoginScreen> {
                     height: 20.0,
                   ),
 
-                  Container(
-                    width: Constants.width*0.28,
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children:[
-                        Ink(
-                          decoration: const ShapeDecoration(
-                            color: Colors.green,
-                            shape: CircleBorder(),
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.facebook),
-                            color: Colors.black,
-                            onPressed: () {},
-                          ),
-                        ),
-                        Ink(
-                          decoration: const ShapeDecoration(
-                            color: Colors.green,
-                            shape: CircleBorder(),
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.inbox),
-                            color: Colors.black,
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                  // Container(
+                  //   width: Constants.width*0.28,
+                  //   child: Row(
+                  //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  //     children:[
+                  //       Ink(
+                  //         decoration: const ShapeDecoration(
+                  //           color: Colors.green,
+                  //           shape: CircleBorder(),
+                  //         ),
+                  //         child: IconButton(
+                  //           icon: const Icon(Icons.facebook),
+                  //           color: Colors.black,
+                  //           onPressed: () {},
+                  //         ),
+                  //       ),
+                  //       Ink(
+                  //         decoration: const ShapeDecoration(
+                  //           color: Colors.green,
+                  //           shape: CircleBorder(),
+                  //         ),
+                  //         child: IconButton(
+                  //           icon: const Icon(Icons.inbox),
+                  //           color: Colors.black,
+                  //           onPressed: () {},
+                  //         ),
+                  //       ),
+                  //     ],
+                  //   ),
+                  // ),
                   SizedBox(height: 30)
                 ],
               ),

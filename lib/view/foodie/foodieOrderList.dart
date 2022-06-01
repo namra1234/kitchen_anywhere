@@ -239,6 +239,8 @@ class _FoodieOrderViewState extends State<FoodieOrderView> {
         {
           print("-------------- chef orders -----------" + Constants.userdata.userID);
           orderData = await OrderRepository().getChefAllDish(Constants.userdata.userID);
+
+          orderData.sort((a, b) => b.orderDate.compareTo(a.orderDate));
         }
       else
         {

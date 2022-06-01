@@ -31,6 +31,8 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
   int qtyNumber = 1;
   bool isFavorite = true;
 
+  bool isActive = true;
+
   @override
   void initState() {
     super.initState();
@@ -41,6 +43,7 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
     foodPrice = widget.dish_.price;
     qtyNumber = widget.dish_.qty;
     isFavorite = true;
+    isActive = widget.dish_.isActive;
   }
 
   void showSnackBar(String message) {
@@ -94,6 +97,7 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
         children: <Widget>[
           Image.network(
             titleImage_,
+            width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height * .45,
             fit: BoxFit.fill,
           ),
@@ -288,7 +292,7 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
           Expanded(
             child: InkWell(
               onTap: () {
-                if (qtyNumber != 0) {
+                if (qtyNumber != 0 && isActive) {
                   bool flag = false;
                   Constants.cartList.forEach((element) {
                     if (element.id == widget.dish_.id) {
@@ -313,6 +317,17 @@ class _ViewInDeatilsState extends State<ViewInDeatils> {
                   //   qtyNumber = 0;
                   // });
                 } else {
+
+
+                  if(!isActive)
+                    {
+                      alertOpen.showAlertOnebtn(
+                          context: context,
+                          title: "Inform",
+                          btnTitle: "ok",
+                          message: "Dish is deactivated");
+                    }
+                  else
                   alertOpen.showAlertOnebtn(
                       context: context,
                       title: "Inform",
